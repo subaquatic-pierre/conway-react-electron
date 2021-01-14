@@ -1,45 +1,50 @@
 import React, { useState} from 'react';
 import Bot, {BotLocation} from './components/Bot';
 
-const logLocation = (currPos: BotLocation) => {
-  console.log(`Bot Location: X - ${currPos.x_pos}, Y - ${currPos.y_pos}`)
-}
+let intervalID: NodeJS.Timeout;
 
 const botOrigin: BotLocation = {x_pos:10,y_pos:10}
-
-// Define a global to store the interval when it is active.
-let stopWatch: any;
 
 function App() {
   const [loopCount, setLoopCount] = useState(0);
   const [running, setRunning] = useState(true);
   const [botPos, setBotPos] = useState(botOrigin)
 
-  const moveBot = () => {
-    logLocation(botPos)
+  const moveBot = (prevLocation: BotLocation): void => {
+    
+  }
+
+  const gameLogic = () => {
+    console.log('Game logic!')
   }
 
   const loop = () => {
-    moveBot();
+    gameLogic();
     setLoopCount(prev => {
       const newCount = prev + 1;
       console.log(newCount)
       return newCount
     });
+
+  }
+
+  // Stop the loop on a conditional
+  if(loopCount >= 5){
+    clearInterval(intervalID)
   }
 
   const handleStartButtonClick = () => {
-    stopWatch = setInterval(loop, 1000)
+    intervalID = setInterval(loop, 1000)
     setRunning(true);
   }
 
   const handleStopButtonClick = () => {
-    clearInterval(stopWatch);
+    clearInterval(intervalID);
     setRunning(false);
   }
 
   const handleResetButtonClick = () => {
-    setBotPos(botOrigin)
+    // setBotPos(botOrigin)
     setLoopCount(0);
     console.clear();
   }
@@ -51,7 +56,7 @@ function App() {
         width: '500px',
         position: 'relative'
       }}>
-      <Bot location={botPos} />
+        <Bot location={botPos} />
       </div>
       <div>
         <button onClick={handleStartButtonClick}>Start</button>

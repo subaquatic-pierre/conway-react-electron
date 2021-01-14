@@ -1,0 +1,5 @@
+{
+    "editor.formatOnSave": true,
+    "typescript.format.insertSpaceAfterTypeAssertion": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+}
