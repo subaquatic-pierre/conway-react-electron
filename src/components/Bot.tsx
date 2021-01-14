@@ -1,23 +1,23 @@
 import React from 'react';
 
 export interface BotLocation {
-        x_pos: number,
-        y_pos: number
+        xPos: number,
+        yPos: number
 }
 
 export interface BotProps {
     location: BotLocation
 }
 
-const Bot = ({location: {x_pos, y_pos}}: BotProps) => {
+const Bot = ({location: {xPos, yPos}}: BotProps) => {
     return (
         <div style={{
             width: '100px',
             height: '100px',
             backgroundColor: 'red',
             position:'absolute',
-            top: `${y_pos}px`,
-            left: `${x_pos}px`
+            top: `${yPos}px`,
+            left: `${xPos}px`
         }}>
         </div>
     )
