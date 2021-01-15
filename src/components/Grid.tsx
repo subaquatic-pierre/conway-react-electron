@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
-import Cell from './Cell';
+import React, { useState } from "react";
+import Cell from "./Cell";
 
 const Grid = () => {
   //   const [cellMatrix, setCellMatrix] = useState([])
-  
   //   const buildMatrix = (): any => {
   //     for(let i = 0; i < 10; i++){
   //       const row: any[] = [];
@@ -13,11 +12,9 @@ const Grid = () => {
   //       setCellMatrix(prev => [...prev, row])
   //     }
   //   }
-  
   //   useEffect(() => {
   //     setCellMatrix(buildMatrix())
   //   }, [])
-  
   //   return (
   //     <div
   //     style={{
@@ -29,4 +26,4 @@ const Grid = () => {
   //     </div>
   //   )
   // }
-}
+};

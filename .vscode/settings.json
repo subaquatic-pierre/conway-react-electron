@@ -1,5 +1,14 @@
 {
-    "editor.formatOnSave": true,
-    "typescript.format.insertSpaceAfterTypeAssertion": true,
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+  //"editor.formatOnSave": true, //set as false and allow scoping of setting per-language basis
+  "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+  },
+  //"prettier.eslintIntegration": true,
+  "css.lint.unknownProperties": "ignore", //ignore composes error unknown property for css composition   
+  "[javascript]": {
+      "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+      "editor.formatOnSave": true
+  }
 }

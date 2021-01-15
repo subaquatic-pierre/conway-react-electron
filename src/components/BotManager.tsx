@@ -1,38 +1,56 @@
-import React, {useState} from 'react';
-import { getRandomInt } from '../utils/randomNumber';
-import Bot, { BotLocation } from './Bot';
+import React from "react";
+import { mainGame } from "../App";
+import { botActionTypes } from "../context/actionTypes";
+import { botReducer } from "../context/reducers";
+import { Bot } from "./BotComponent";
 
-const botOrigin: BotLocation = {xPos:10, yPos:10}
+export const BotManager: React.FC = () => {
+  const [state, dispatch] = React.useReducer(botReducer, mainGame.getState());
 
-const BotManager: React.FC = () => {
-    const [botPos, setBotPos] = useState(botOrigin)
+  window.addEventListener("keyup", (e) => {
+    switch (e.code) {
+      case "ArrowRight":
+        dispatch({
+          type: botActionTypes.MOVE_BOT,
+          data: { direction: "right", distance: 10 },
+        });
+        break;
 
-    const moveBot = (prevLocation: BotLocation): void => {
-      const randomX: number = getRandomInt(50);
-      const randomY: number = getRandomInt(50);
-  
-      const newPos: BotLocation = {xPos: randomX, yPos: randomY}
-  
-      setBotPos(prevPos => {
-        const newX: number = prevPos.xPos + randomX
-        const newY: number = prevPos.yPos + randomY
-        return (
-          {
-            xPos: newX,
-            yPos: newY
-          }
-        )
-      })
+      case "ArrowLeft":
+        dispatch({
+          type: botActionTypes.MOVE_BOT,
+          data: { direction: "left", distance: 10 },
+        });
+        break;
+
+      case "ArrowUp":
+        dispatch({
+          type: botActionTypes.MOVE_BOT,
+          data: { direction: "up", distance: 10 },
+        });
+        break;
+
+      case "ArrowDown":
+        dispatch({
+          type: botActionTypes.MOVE_BOT,
+          data: { direction: "down", distance: 10 },
+        });
+        break;
+
+      default:
+        break;
     }
+  });
 
-    
-    return (
-        <>
-        <h2>Bot manager</h2>
-        <hr/>
-        <Bot location={botPos} />
-        </>
-    )
-}
+  const bots = state ? state.botManager.getBots() : [];
 
-export default BotManager;
+  return (
+    <>
+      <h2>Bot manager</h2>
+      <hr />
+      {bots.map((bot: any, i: number) => (
+        <Bot key={i} location={bot.getLocation()} name={bot.getName()} />
+      ))}
+    </>
+  );
+};
