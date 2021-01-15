@@ -13,18 +13,18 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   switch (action.type) {
     case gameActionTypes.RUN_GAME:
       newGameState = mainGame.runGame(state, action.data);
-      return newGameState;
+      return { ...state, ...newGameState };
 
     case gameActionTypes.STOP_GAME:
       clearInterval(state.intervalID);
       newGameState = mainGame.stopGame();
-      return newGameState;
+      return { ...state, ...newGameState };
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
       // console.clear();
       newGameState = mainGame.resetGame();
-      return newGameState;
+      return { ...state, ...newGameState };
 
     default:
       throw new Error(
@@ -33,22 +33,33 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   }
 };
 
+interface IBotState {}
+
 export const botReducer = (state: IGameState, action: IActions) => {
-  let newGameState;
+  let newBotState;
 
   switch (action.type) {
     case botActionTypes.ADD_BOT:
-      newGameState = mainGame.addBot();
-      console.log(newGameState);
+      newBotState = mainGame.addBot();
+      console.log(newBotState);
 
-      return { ...state, ...newGameState };
+      state.botManager = newBotState.botManager;
+
+      const newState: IGameState = {
+        ...state,
+        ...[(state["botManager"] = newBotState["botManager"])],
+      };
+
+      console.log(newState);
+
+      return { ...state, ...newBotState };
 
     case botActionTypes.MOVE_BOT:
-      newGameState = mainGame.moveBots(
+      newBotState = mainGame.moveBots(
         action.data.direction,
         action.data.distance
       );
-      return newGameState;
+      return { ...state, ...newBotState };
 
     default:
       throw new Error(

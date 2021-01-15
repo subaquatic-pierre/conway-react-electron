@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { mainGame } from "../App";
 import { botActionTypes } from "../context/actionTypes";
 import { botReducer } from "../context/reducers";
@@ -7,7 +7,6 @@ import { Bot as BotComponent } from "./BotComponent";
 
 export const BotManager: React.FC = () => {
   const [state, dispatch] = React.useReducer(botReducer, mainGame.getState());
-  let bots: Bot[] = [];
 
   window.addEventListener("keyup", (e) => {
     switch (e.code) {
@@ -43,10 +42,6 @@ export const BotManager: React.FC = () => {
         break;
     }
   });
-
-  useEffect(() => {
-    bots = state.botManager.getBots();
-  }, [state]);
 
   return (
     <>

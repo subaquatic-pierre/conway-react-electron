@@ -1,13 +1,13 @@
 import { Bot } from "./Bot";
 
-const createBots = (): Bot[] => {
+const createInitialBots = (): Bot[] => {
   return [new Bot("Bob"), new Bot("Jeff")];
 };
 
 export class BotManager {
-  private _bots: Bot[];
+  public _bots: Bot[];
 
-  constructor(bots: Bot[] = createBots()) {
+  constructor(bots: Bot[] = createInitialBots()) {
     this._bots = bots;
   }
 
@@ -22,8 +22,8 @@ export class BotManager {
     }
   }
 
-  public addBot(): void {
-    const newBot = new Bot("New bot");
+  public addBot(name: string = "New Bot"): void {
+    const newBot = new Bot(name);
     this._bots.push(newBot);
   }
 }
