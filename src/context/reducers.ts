@@ -33,7 +33,7 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   }
 };
 
-export const botReducer = (state: IGameState, action: IActions) => {
+export const botReducer = (state: any, action: any) => {
   let newGameState;
   switch (action.type) {
     case botActionTypes.ADD_BOT:
