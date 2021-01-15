@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { Bot } from "./Bot";
 import { BotManager } from "./BotManager";
 
@@ -90,12 +89,13 @@ export class Game {
     return this._botManager.getBots();
   }
 
-  public moveBots(direction: string, distance: number): Bot[] {
+  public moveBots(direction: string, distance: number): IGameState {
     this._botManager.moveBots(direction, distance);
     return this.getState();
   }
 
-  public addBot(): void {
-    return this._botManager.addBot();
+  public addBot(): IGameState {
+    this._botManager.addBot();
+    return this.getState();
   }
 }

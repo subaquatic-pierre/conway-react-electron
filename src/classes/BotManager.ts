@@ -1,4 +1,3 @@
-import { create } from "domain";
 import { Bot } from "./Bot";
 
 const createBots = (): Bot[] => {
@@ -7,21 +6,20 @@ const createBots = (): Bot[] => {
 
 export class BotManager {
   private _bots: Bot[];
+
   constructor(bots: Bot[] = createBots()) {
-    this._bots = bots;
+    this._bots = [new Bot("Bob"), new Bot("Jeff")];
   }
 
   public getBots(): Bot[] {
     return this._bots;
   }
 
-  public moveBots(direction: string, distance: number): Bot[] {
+  public moveBots(direction: string, distance: number): void {
     const bots: Bot[] = this.getBots();
-    for (let i = 0; i < bots.length; i++) {
+    for (let i = 0; i < this._bots.length; i++) {
       bots[i].move(direction, distance);
     }
-
-    return this._bots;
   }
 
   public addBot(): void {

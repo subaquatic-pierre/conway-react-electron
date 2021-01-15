@@ -33,8 +33,9 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   }
 };
 
-export const botReducer = (state: any, action: any) => {
+export const botReducer = (state: IGameState, action: IActions) => {
   let newGameState;
+
   switch (action.type) {
     case botActionTypes.ADD_BOT:
       newGameState = mainGame.addBot();
@@ -45,10 +46,7 @@ export const botReducer = (state: any, action: any) => {
         action.data.direction,
         action.data.distance
       );
-
-      return {
-        ...state,
-      };
+      return newGameState;
 
     default:
       throw new Error(

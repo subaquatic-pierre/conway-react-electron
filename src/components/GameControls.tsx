@@ -1,5 +1,5 @@
 import React from "react";
-import { botActionTypes, gameActionTypes } from "../context/actionTypes";
+import { gameActionTypes } from "../context/actionTypes";
 import { mainGame } from "../App";
 import { gameReducer } from "../context/reducers";
 
@@ -35,20 +35,13 @@ export const GameControls: React.FC = () => {
     });
   };
 
-  const handleAddBot = (): void => {
-    dispatch({
-      type: botActionTypes.ADD_BOT,
-    });
-  };
-
   return (
     <div>
-      <h2>Controls</h2>
+      <h2>Game Controls</h2>
       <hr />
       <button onClick={handleStartClick}>Start</button>
       <button onClick={handleStopClick}>Stop</button>
       <button onClick={handleResetClick}>Reset</button>
-      <button onClick={handleAddBot}>Add Bot</button>
     </div>
   );
 };
