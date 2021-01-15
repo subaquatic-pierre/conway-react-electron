@@ -35,7 +35,7 @@ export class Game {
       intervalID: this._intervalID,
       botManager: this._botManager,
     };
-    return state;
+    return { ...state };
   }
 
   public setState(state: IGameState) {
@@ -91,6 +91,7 @@ export class Game {
 
   public moveBots(direction: string, distance: number): IGameState {
     this._botManager.moveBots(direction, distance);
+    console.log(this.getState());
     return this.getState();
   }
 

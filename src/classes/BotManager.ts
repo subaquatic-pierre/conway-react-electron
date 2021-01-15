@@ -8,7 +8,7 @@ export class BotManager {
   private _bots: Bot[];
 
   constructor(bots: Bot[] = createBots()) {
-    this._bots = [new Bot("Bob"), new Bot("Jeff")];
+    this._bots = bots;
   }
 
   public getBots(): Bot[] {

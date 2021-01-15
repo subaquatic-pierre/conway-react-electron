@@ -39,7 +39,9 @@ export const botReducer = (state: IGameState, action: IActions) => {
   switch (action.type) {
     case botActionTypes.ADD_BOT:
       newGameState = mainGame.addBot();
-      return newGameState;
+      console.log(newGameState);
+
+      return { ...state, ...newGameState };
 
     case botActionTypes.MOVE_BOT:
       newGameState = mainGame.moveBots(
