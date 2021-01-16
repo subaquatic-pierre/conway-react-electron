@@ -1,15 +1,11 @@
 import { Bot } from "./Bot";
-import { BotManager } from "./BotManager";
-import { initialGameState, IGameState } from "../App";
+import { initialGameState, IGameState } from "../context/initialState";
 
-export class Game {
+export class GameManager {
   private _state: IGameState;
-
-  private botManager: BotManager;
 
   constructor(state: IGameState = initialGameState) {
     this._state = state;
-    this.botManager = new BotManager(this._state.bots);
   }
 
   private _updateLoopCount() {

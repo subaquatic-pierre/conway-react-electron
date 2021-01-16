@@ -7,4 +7,5 @@ export enum gameActionTypes {
 export enum botActionTypes {
   MOVE_BOT = "MOVE_BOT",
   ADD_BOT = "ADD_BOT",
+  ADD_ITEM = "ADD_ITEM",
 }

@@ -1,1 +1,1 @@
-import Game from "../Game";
+import { GameManager } from "../GameManager";

@@ -1,16 +1,18 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { Bot } from "../classes/Bot";
 import { BotManager } from "../classes/BotManager";
-import { Game } from "../classes/Game";
-import { IGameState } from "../App";
+import { GameManager } from "../classes/GameManager";
+import { IGameState, IBotState } from "./initialState";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
   data?: any;
 }
 
-export const gameReducer = (state: IGameState, action: IActions) => {
-  const game = new Game(state);
+export const gameReducer = (
+  state: IGameState,
+  action: IActions
+): IGameState => {
+  const game = new GameManager({ ...state });
   let newGameState: IGameState;
 
   switch (action.type) {
@@ -25,7 +27,6 @@ export const gameReducer = (state: IGameState, action: IActions) => {
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
-      // console.clear();
       newGameState = game.resetGame();
       return { ...state, ...newGameState };
 
@@ -36,26 +37,29 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   }
 };
 
-export const botReducer = (state: IGameState, action: IActions): IGameState => {
+export const botReducer = (state: IBotState, action: IActions): IBotState => {
   const botManager = new BotManager({ ...state.bots });
 
   switch (action.type) {
     case botActionTypes.ADD_BOT:
-      const newBot = botManager.createBot("Jeff");
-
-      console.log(state);
-
+      const newBot = botManager.createBot("Name Jeff");
       return {
         ...state,
         bots: [...state.bots, newBot],
       };
 
-    case botActionTypes.MOVE_BOT:
-      return { ...state };
+    // case botActionTypes.MOVE_BOT:
+    //   const direction: string = action.data.direction;
+    //   const distance: number = action.data.distance;
+    //   newBots = game.moveBots(direction, distance);
+    //   return {
+    //     ...state,
+    //     bots: newBots,
+    //   };
 
     default:
       throw new Error(
-        `Undefined action type: ${action.type} passed to botReducer`
+        `Undefined action type: ${action.type} passed to reducer`
       );
   }
 };

@@ -11,11 +11,11 @@ export class BotManager {
     return this._bots;
   }
 
-  public moveBots(bots: Bot[], direction: string, distance: number): Bot[] {
-    for (let i = 0; i < bots.length; i++) {
+  public moveBots(direction: string, distance: number): void {
+    const bots: Bot[] = this.getBots();
+    for (let i = 0; i < this._bots.length; i++) {
       bots[i].move(direction, distance);
     }
-    return bots;
   }
 
   public createBot(name: string = "New Bot"): Bot {

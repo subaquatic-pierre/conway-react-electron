@@ -1,12 +1,11 @@
 import React from "react";
 import { gameActionTypes } from "../context/actionTypes";
-import { initialGameState } from "../App";
-import { gameReducer } from "../context/reducers";
+import { GameContext } from "../App";
 
 export let intervalID: NodeJS.Timeout;
 
 export const GameControls: React.FC = () => {
-  const [state, dispatch] = React.useReducer(gameReducer, initialGameState);
+  const { gameDispatch } = React.useContext(GameContext);
 
   const intervalRef: any = React.useRef();
 
@@ -14,7 +13,7 @@ export const GameControls: React.FC = () => {
     console.log("Start Click");
     const id: NodeJS.Timeout = setInterval(() => {
       intervalRef.current = id;
-      return dispatch({
+      return gameDispatch({
         type: gameActionTypes.RUN_GAME,
         data: { running: true, intervalID: intervalRef.current },
       });
@@ -22,14 +21,14 @@ export const GameControls: React.FC = () => {
   };
 
   const handleStopClick = () => {
-    dispatch({
+    gameDispatch({
       type: gameActionTypes.STOP_GAME,
       data: { running: false },
     });
   };
 
   const handleResetClick = () => {
-    dispatch({
+    gameDispatch({
       type: gameActionTypes.RESET_GAME,
       data: { running: false },
     });

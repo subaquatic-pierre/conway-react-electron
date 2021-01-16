@@ -12,10 +12,6 @@ interface IBotState {
   location: IBotLocation;
 }
 
-const initialBotState: IBotState = {
-  location: initialStartingLocation,
-};
-
 export class Bot {
   static startingLocation: IBotLocation = initialStartingLocation;
 

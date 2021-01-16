@@ -1,37 +1,36 @@
 import React from "react";
-import { initialGameState } from "../App";
+import { BotContext } from "../App";
 import { botActionTypes } from "../context/actionTypes";
-import { botReducer } from "../context/reducers";
 import { Bot as BotComponent } from "./BotComponent";
 
 export const BotManager: React.FC = () => {
-  const [state, dispatch] = React.useReducer(botReducer, initialGameState);
+  const { botState, botDispatch } = React.useContext(BotContext);
 
   window.addEventListener("keyup", (e) => {
     switch (e.code) {
       case "ArrowRight":
-        dispatch({
+        botDispatch({
           type: botActionTypes.MOVE_BOT,
           data: { direction: "right", distance: 10 },
         });
         break;
 
       case "ArrowLeft":
-        dispatch({
+        botDispatch({
           type: botActionTypes.MOVE_BOT,
           data: { direction: "left", distance: 10 },
         });
         break;
 
       case "ArrowUp":
-        dispatch({
+        botDispatch({
           type: botActionTypes.MOVE_BOT,
           data: { direction: "up", distance: 10 },
         });
         break;
 
       case "ArrowDown":
-        dispatch({
+        botDispatch({
           type: botActionTypes.MOVE_BOT,
           data: { direction: "down", distance: 10 },
         });
@@ -42,21 +41,19 @@ export const BotManager: React.FC = () => {
     }
   });
 
-  console.log(state);
-
   return (
     <>
       <h2>Bot manager</h2>
       <hr />
-      {state && console.log(state)}
-      {state &&
-        state.bots.map((bot: any, i: number) => (
+      <div style={{ position: "relative" }}>
+        {botState.bots.map((bot: any, i: number) => (
           <BotComponent
             key={i}
             location={bot.getLocation()}
             name={bot.getName()}
           />
         ))}
+      </div>
     </>
   );
 };
