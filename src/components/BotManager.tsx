@@ -1,12 +1,11 @@
 import React from "react";
-import { mainGame } from "../App";
+import { initialGameState } from "../App";
 import { botActionTypes } from "../context/actionTypes";
 import { botReducer } from "../context/reducers";
-import { Bot } from "../classes/Bot";
 import { Bot as BotComponent } from "./BotComponent";
 
 export const BotManager: React.FC = () => {
-  const [state, dispatch] = React.useReducer(botReducer, mainGame.getState());
+  const [state, dispatch] = React.useReducer(botReducer, initialGameState);
 
   window.addEventListener("keyup", (e) => {
     switch (e.code) {
@@ -43,20 +42,21 @@ export const BotManager: React.FC = () => {
     }
   });
 
+  console.log(state);
+
   return (
     <>
       <h2>Bot manager</h2>
       <hr />
+      {state && console.log(state)}
       {state &&
-        state.botManager
-          .getBots()
-          .map((bot: any, i: number) => (
-            <BotComponent
-              key={i}
-              location={bot.getLocation()}
-              name={bot.getName()}
-            />
-          ))}
+        state.bots.map((bot: any, i: number) => (
+          <BotComponent
+            key={i}
+            location={bot.getLocation()}
+            name={bot.getName()}
+          />
+        ))}
     </>
   );
 };

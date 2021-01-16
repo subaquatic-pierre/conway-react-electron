@@ -1,12 +1,12 @@
 import React from "react";
 import { gameActionTypes } from "../context/actionTypes";
-import { mainGame } from "../App";
+import { initialGameState } from "../App";
 import { gameReducer } from "../context/reducers";
 
 export let intervalID: NodeJS.Timeout;
 
 export const GameControls: React.FC = () => {
-  const [state, dispatch] = React.useReducer(gameReducer, mainGame.getState());
+  const [state, dispatch] = React.useReducer(gameReducer, initialGameState);
 
   const intervalRef: any = React.useRef();
 

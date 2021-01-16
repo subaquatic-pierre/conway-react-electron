@@ -1,12 +1,12 @@
 import React from "react";
 import { botActionTypes } from "../context/actionTypes";
-import { mainGame } from "../App";
+import { initialGameState } from "../App";
 import { botReducer } from "../context/reducers";
 
 export let intervalID: NodeJS.Timeout;
 
 export const BotControls: React.FC = () => {
-  const [state, dispatch] = React.useReducer(botReducer, mainGame.getState());
+  const [state, dispatch] = React.useReducer(botReducer, initialGameState);
 
   const handleAddBot = (): void => {
     dispatch({

@@ -1,52 +1,26 @@
 import { Bot } from "./Bot";
 import { BotManager } from "./BotManager";
-
-export interface IGameState {
-  intervalID: NodeJS.Timeout | any;
-  running: boolean;
-  loopCount: number;
-  botManager: BotManager;
-}
-
-export const initialGameState: IGameState = {
-  intervalID: null,
-  running: false,
-  loopCount: 0,
-  botManager: new BotManager(),
-};
+import { initialGameState, IGameState } from "../App";
 
 export class Game {
-  private _loopCount: number;
-  private _running: boolean;
-  private _intervalID: NodeJS.Timeout | any;
-  private _botManager: BotManager;
+  private _state: IGameState;
+
+  private botManager: BotManager;
 
   constructor(state: IGameState = initialGameState) {
-    this._loopCount = state.loopCount;
-    this._running = state.running;
-    this._intervalID = state.intervalID;
-    this._botManager = state.botManager;
-  }
-
-  public getState(): IGameState {
-    const state: IGameState = {
-      running: this._running,
-      loopCount: this._loopCount,
-      intervalID: this._intervalID,
-      botManager: this._botManager,
-    };
-    return state;
-  }
-
-  public setState(state: IGameState) {
-    this._loopCount = state.loopCount;
-    this._running = state.running;
-    this._intervalID = state.intervalID;
-    this._botManager = state.botManager;
+    this._state = state;
+    this.botManager = new BotManager(this._state.bots);
   }
 
   private _updateLoopCount() {
-    this._loopCount = this._loopCount + 1;
+    this._state.loopCount = this._state.loopCount + 1;
+  }
+
+  public getState(): IGameState {
+    return this._state;
+  }
+  public setState(value: IGameState) {
+    this._state = value;
   }
 
   public runGame = (
@@ -59,20 +33,18 @@ export class Game {
     };
 
     this.setState(newState);
-
     this._updateLoopCount();
 
-    console.log("Game Loop info: ", this.getState());
+    console.log("Game Loop info: ", this._state);
 
     return this.getState();
   };
 
   public stopGame(): IGameState {
+    const prevState = this.getState();
     const newState: IGameState = {
-      running: false,
-      intervalID: null,
-      loopCount: this._loopCount,
-      botManager: this._botManager,
+      ...prevState,
+      running: true,
     };
 
     this.setState(newState);
@@ -82,20 +54,6 @@ export class Game {
   public resetGame(): IGameState {
     Bot.resetStatingLocation();
     this.setState(initialGameState);
-    return this.getState();
-  }
-
-  public getBots(): Bot[] {
-    return this._botManager.getBots();
-  }
-
-  public moveBots(direction: string, distance: number): IGameState {
-    this._botManager.moveBots(direction, distance);
-    return this.getState();
-  }
-
-  public addBot(): IGameState {
-    this._botManager.addBot();
     return this.getState();
   }
 }

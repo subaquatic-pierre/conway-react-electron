@@ -1,7 +1,8 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { mainGame } from "../App";
-import { IGameState } from "../classes/Game";
 import { Bot } from "../classes/Bot";
+import { BotManager } from "../classes/BotManager";
+import { Game } from "../classes/Game";
+import { IGameState } from "../App";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
@@ -9,21 +10,23 @@ export interface IActions {
 }
 
 export const gameReducer = (state: IGameState, action: IActions) => {
-  let newGameState;
+  const game = new Game(state);
+  let newGameState: IGameState;
+
   switch (action.type) {
     case gameActionTypes.RUN_GAME:
-      newGameState = mainGame.runGame(state, action.data);
+      newGameState = game.runGame(state, action.data);
       return { ...state, ...newGameState };
 
     case gameActionTypes.STOP_GAME:
       clearInterval(state.intervalID);
-      newGameState = mainGame.stopGame();
+      newGameState = game.stopGame();
       return { ...state, ...newGameState };
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
       // console.clear();
-      newGameState = mainGame.resetGame();
+      newGameState = game.resetGame();
       return { ...state, ...newGameState };
 
     default:
@@ -33,33 +36,22 @@ export const gameReducer = (state: IGameState, action: IActions) => {
   }
 };
 
-interface IBotState {}
-
-export const botReducer = (state: IGameState, action: IActions) => {
-  let newBotState;
+export const botReducer = (state: IGameState, action: IActions): IGameState => {
+  const botManager = new BotManager({ ...state.bots });
 
   switch (action.type) {
     case botActionTypes.ADD_BOT:
-      newBotState = mainGame.addBot();
-      console.log(newBotState);
+      const newBot = botManager.createBot("Jeff");
 
-      state.botManager = newBotState.botManager;
+      console.log(state);
 
-      const newState: IGameState = {
+      return {
         ...state,
-        ...[(state["botManager"] = newBotState["botManager"])],
+        bots: [...state.bots, newBot],
       };
 
-      console.log(newState);
-
-      return { ...state, ...newBotState };
-
     case botActionTypes.MOVE_BOT:
-      newBotState = mainGame.moveBots(
-        action.data.direction,
-        action.data.distance
-      );
-      return { ...state, ...newBotState };
+      return { ...state };
 
     default:
       throw new Error(
