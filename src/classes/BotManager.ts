@@ -1,4 +1,4 @@
-import { initialBotState } from "../context/initialState";
+import { IBotState, initialBotState } from "../context/initialState";
 import { Bot } from "./Bot";
 
 export class BotManager {
@@ -25,21 +25,21 @@ export class BotManager {
     }
   }
 
-  public createBot(name: string = "New Bot"): Bot {
+  public createBot(name: string): Bot {
     const newBot = new Bot(name);
     return newBot;
   }
 
-  public selectBot(id: number): Bot[] {
-    console.log(this._bots);
-    // this._bots.forEach((bot) => {
-    //   if (bot.getID() === id) {
-    //     bot.setSelected(true);
-    //   } else {
-    //     bot.setSelected(false);
-    //   }
-    // });
+  public selectBot(state: IBotState, id: number, numberOfBots: number): Bot[] {
+    const bots = state.bots;
+    for (let i = 0; i < numberOfBots; i++) {
+      if (bots[i].getID() === id) {
+        bots[i].setSelected(true);
+      } else {
+        bots[i].setSelected(false);
+      }
+    }
 
-    return this.getBots();
+    return bots;
   }
 }

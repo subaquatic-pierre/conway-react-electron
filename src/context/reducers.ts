@@ -41,12 +41,14 @@ export const gameReducer = (
 export const botReducer = (state: IBotState, action: IActions): IBotState => {
   const botManager = new BotManager({ ...state.bots });
   let newBots: Bot[] = [];
+  // let newState: IBotState;
 
   switch (action.type) {
     case botActionTypes.ADD_BOT:
-      const newBot = botManager.createBot("Name Jeff");
+      const newBot = botManager.createBot("Jeff");
       return {
         ...state,
+        numberOfBots: state.numberOfBots++,
         bots: [...state.bots, newBot],
       };
 
@@ -55,12 +57,8 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       return initialBotState;
 
     case botActionTypes.SELECT_BOT:
-      newBots = botManager.selectBot(action.data.id);
+      newBots = botManager.selectBot(state, action.data.id, state.numberOfBots);
 
-      const bots = state.bots;
-      for (let i = 0; i < 1; i++) {
-        bots[i].setSelected(true);
-      }
       // newBots.forEach((bot) => {
       //   if (bot.getID() === action.data.id) {
       //     bot.setSelected(true);
@@ -71,7 +69,7 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
 
       return {
         ...state,
-        bots: [...state.bots, ...bots],
+        bots: [...state.bots, ...newBots],
       };
 
     // case botActionTypes.MOVE_BOT:
