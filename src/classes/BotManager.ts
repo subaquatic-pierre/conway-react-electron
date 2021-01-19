@@ -1,3 +1,4 @@
+import { initialBotState } from "../context/initialState";
 import { Bot } from "./Bot";
 
 export class BotManager {
@@ -9,6 +10,12 @@ export class BotManager {
 
   public getBots(): Bot[] {
     return this._bots;
+  }
+
+  public resetBots(): Bot[] {
+    Bot.resetStatingLocation();
+    this._bots = initialBotState.bots;
+    return this.getBots();
   }
 
   public moveBots(direction: string, distance: number): void {

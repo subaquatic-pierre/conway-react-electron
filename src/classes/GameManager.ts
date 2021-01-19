@@ -48,7 +48,6 @@ export class GameManager {
   }
 
   public resetGame(): IGameState {
-    Bot.resetStatingLocation();
     this.setState(initialGameState);
     return this.getState();
   }

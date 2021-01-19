@@ -1,7 +1,7 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
 import { BotManager } from "../classes/BotManager";
 import { GameManager } from "../classes/GameManager";
-import { IGameState, IBotState } from "./initialState";
+import { IGameState, IBotState, initialBotState } from "./initialState";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
@@ -47,6 +47,10 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         ...state,
         bots: [...state.bots, newBot],
       };
+
+    case botActionTypes.RESET_BOTS:
+      const newBots = botManager.resetBots();
+      return initialBotState;
 
     // case botActionTypes.MOVE_BOT:
     //   const direction: string = action.data.direction;

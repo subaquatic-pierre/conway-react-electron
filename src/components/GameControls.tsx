@@ -1,11 +1,12 @@
 import React from "react";
-import { gameActionTypes } from "../context/actionTypes";
-import { GameContext } from "../App";
+import { botActionTypes, gameActionTypes } from "../context/actionTypes";
+import { GameContext, BotContext } from "../App";
 
 export let intervalID: NodeJS.Timeout;
 
 export const GameControls: React.FC = () => {
   const { gameDispatch } = React.useContext(GameContext);
+  const { botDispatch } = React.useContext(BotContext);
 
   const intervalRef: any = React.useRef();
 
@@ -31,6 +32,10 @@ export const GameControls: React.FC = () => {
     gameDispatch({
       type: gameActionTypes.RESET_GAME,
       data: { running: false },
+    });
+
+    botDispatch({
+      type: botActionTypes.RESET_BOTS,
     });
   };
 
