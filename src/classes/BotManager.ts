@@ -29,4 +29,17 @@ export class BotManager {
     const newBot = new Bot(name);
     return newBot;
   }
+
+  public selectBot(id: number): Bot[] {
+    console.log(this._bots);
+    // this._bots.forEach((bot) => {
+    //   if (bot.getID() === id) {
+    //     bot.setSelected(true);
+    //   } else {
+    //     bot.setSelected(false);
+    //   }
+    // });
+
+    return this.getBots();
+  }
 }

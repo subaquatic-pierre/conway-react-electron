@@ -51,6 +51,8 @@ export const BotManager: React.FC = () => {
             key={i}
             location={bot.getLocation()}
             name={bot.getName()}
+            selected={bot.isSelected()}
+            id={bot.getID()}
           />
         ))}
       </div>

@@ -1,6 +1,7 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
 import { BotManager } from "../classes/BotManager";
 import { GameManager } from "../classes/GameManager";
+import { Bot } from "../classes/Bot";
 import { IGameState, IBotState, initialBotState } from "./initialState";
 
 export interface IActions {
@@ -39,6 +40,7 @@ export const gameReducer = (
 
 export const botReducer = (state: IBotState, action: IActions): IBotState => {
   const botManager = new BotManager({ ...state.bots });
+  let newBots: Bot[] = [];
 
   switch (action.type) {
     case botActionTypes.ADD_BOT:
@@ -49,8 +51,28 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       };
 
     case botActionTypes.RESET_BOTS:
-      const newBots = botManager.resetBots();
+      newBots = botManager.resetBots();
       return initialBotState;
+
+    case botActionTypes.SELECT_BOT:
+      newBots = botManager.selectBot(action.data.id);
+
+      const bots = state.bots;
+      for (let i = 0; i < 1; i++) {
+        bots[i].setSelected(true);
+      }
+      // newBots.forEach((bot) => {
+      //   if (bot.getID() === action.data.id) {
+      //     bot.setSelected(true);
+      //   } else {
+      //     bot.setSelected(false);
+      //   }
+      // });
+
+      return {
+        ...state,
+        bots: [...state.bots, ...bots],
+      };
 
     // case botActionTypes.MOVE_BOT:
     //   const direction: string = action.data.direction;

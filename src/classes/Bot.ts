@@ -14,6 +14,7 @@ interface IBotState {
 
 export class Bot {
   static startingLocation: IBotLocation = initialStartingLocation;
+  static botIDCount: number = 0;
 
   static resetStatingLocation(): void {
     Bot.startingLocation = initialStartingLocation;
@@ -21,10 +22,14 @@ export class Bot {
 
   private _name: string;
   private _location: IBotLocation;
+  private _id: number;
+  private _selected: boolean;
 
   constructor(name: string) {
     this._name = name;
     this._location = Bot.startingLocation;
+    this._id = Bot.botIDCount;
+    this._selected = false;
 
     // Update new starting location for each bot
     const newStartingLocation: IBotLocation = {
@@ -32,6 +37,7 @@ export class Bot {
       yPos: Bot.startingLocation.yPos,
     };
     Bot.startingLocation = newStartingLocation;
+    Bot.botIDCount++;
   }
 
   public getState(): IBotState {
@@ -46,8 +52,20 @@ export class Bot {
     return this._name;
   }
 
+  public getID(): number {
+    return this._id;
+  }
+
   public getLocation(): IBotLocation {
     return this._location;
+  }
+
+  public setSelected(value: boolean): void {
+    this._selected = value;
+  }
+
+  public isSelected(): boolean {
+    return this._selected;
   }
 
   public setLocation(value: IBotLocation) {

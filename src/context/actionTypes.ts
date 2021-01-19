@@ -9,4 +9,5 @@ export enum botActionTypes {
   ADD_BOT = "ADD_BOT",
   ADD_ITEM = "ADD_ITEM",
   RESET_BOTS = "RESET_BOTS",
+  SELECT_BOT = "SELECT_BOT",
 }
