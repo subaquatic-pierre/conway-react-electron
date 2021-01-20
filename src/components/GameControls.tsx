@@ -5,20 +5,20 @@ import { GameContext, BotContext } from "../App";
 export let intervalID: NodeJS.Timeout;
 
 export const GameControls: React.FC = () => {
-  const { gameDispatch } = React.useContext(GameContext);
+  const { gameState, gameDispatch } = React.useContext(GameContext);
   const { botDispatch } = React.useContext(BotContext);
 
-  const intervalRef: any = React.useRef();
-
   const handleStartClick = () => {
-    console.log("Start Click");
-    const id: NodeJS.Timeout = setInterval(() => {
-      intervalRef.current = id;
-      return gameDispatch({
-        type: gameActionTypes.RUN_GAME,
-        data: { running: true, intervalID: intervalRef.current },
-      });
-    }, 1000);
+    if (!gameState.running) {
+      const intervalID: NodeJS.Timeout = setInterval(() => {
+        return gameDispatch({
+          type: gameActionTypes.RUN_GAME,
+          data: { running: true, intervalID: intervalID },
+        });
+      }, 1000);
+    } else {
+      console.log("Game is already running");
+    }
   };
 
   const handleStopClick = () => {

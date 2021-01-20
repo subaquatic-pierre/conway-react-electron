@@ -13,9 +13,11 @@ export interface IActions {
   data?: any;
 }
 
-const gameLoop = (state: IGameState): IGameState => {
+const gameLoop = (state: IGameState, action: IActions): IGameState => {
   return {
     ...state,
+    running: true,
+    intervalID: action.data.intervalID,
     loopCount: state.loopCount++,
   };
 };
@@ -26,10 +28,11 @@ export const gameReducer = (
 ): IGameState => {
   switch (action.type) {
     case gameActionTypes.RUN_GAME:
-      return gameLoop(state);
+      return gameLoop(state, action);
 
     case gameActionTypes.STOP_GAME:
       clearInterval(state.intervalID);
+      console.log(state.intervalID);
       return {
         ...state,
         running: false,
