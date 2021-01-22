@@ -1,7 +1,11 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { BotManager } from "./BotManager";
 import { Bot, IBotLocation } from "./Bot";
-import { IGameState, IBotState, initialBotState } from "./initialState";
+import {
+  IGameState,
+  IBotState,
+  initialBotState,
+  initialGameState,
+} from "./initialState";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
@@ -16,14 +20,6 @@ const gameLoop = (state: IGameState, action: IActions): IGameState => {
     running: true,
     intervalID: action.data.intervalID,
     loopCount: state.loopCount++,
-  };
-};
-
-const resetGameState = () => {
-  return {
-    intervalID: null,
-    running: false,
-    loopCount: 0,
   };
 };
 
@@ -60,7 +56,7 @@ export const gameReducer = (
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
-      return resetGameState();
+      return initialGameState();
 
     default:
       throw new Error(
@@ -86,26 +82,31 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       };
 
     case botActionTypes.RESET_BOTS:
-      return initialBotState;
+      return initialBotState();
 
     case botActionTypes.SELECT_BOT:
-      const bots = state.bots;
+      const botsSelect = state.bots;
 
-      updateSelectedBots(bots, state, action.data);
+      updateSelectedBots(botsSelect, state, action.data);
 
       return {
         ...state,
-        bots: bots,
+        bots: botsSelect,
       };
 
-    // case botActionTypes.MOVE_BOT:
-    //   const direction: string = action.data.direction;
-    //   const distance: number = action.data.distance;
-    //   newBots = game.moveBots(direction, distance);
-    //   return {
-    //     ...state,
-    //     bots: newBots,
-    //   };
+    case botActionTypes.MOVE_BOT:
+      const direction: string = action.data.direction;
+      const distance: number = action.data.distance;
+      const botsMove: Bot[] = state.bots;
+      const selectedBot: Bot = botsMove.filter((bot: Bot) =>
+        bot.isSelected()
+      )[0];
+      selectedBot.move(direction, distance);
+
+      return {
+        ...state,
+        bots: [...state.bots, selectedBot],
+      };
 
     default:
       throw new Error(

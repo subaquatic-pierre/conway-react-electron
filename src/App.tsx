@@ -27,9 +27,12 @@ export const BotContext = React.createContext({} as IBotContextProps);
 const App: React.FC = () => {
   const [gameState, gameDispatch] = React.useReducer(
     gameReducer,
-    initialGameState
+    initialGameState()
   );
-  const [botState, botDispatch] = React.useReducer(botReducer, initialBotState);
+  const [botState, botDispatch] = React.useReducer(
+    botReducer,
+    initialBotState()
+  );
 
   return (
     <GameContext.Provider value={{ gameState, gameDispatch }}>

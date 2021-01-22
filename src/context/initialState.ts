@@ -12,14 +12,14 @@ export interface IBotState {
   startingLocation: IBotLocation;
 }
 
-export const initialGameState: IGameState = {
+export const initialGameState = (): IGameState => ({
   intervalID: null,
   running: false,
   loopCount: 0,
-};
+});
 
-export const initialBotState: IBotState = {
+export const initialBotState = (): IBotState => ({
   startingLocation: initialStartingLocation,
   numberOfBots: 1,
   bots: [new Bot("Bob", initialStartingLocation, 0)],
-};
+});

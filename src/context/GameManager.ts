@@ -4,7 +4,7 @@ import { initialGameState, IGameState } from "./initialState";
 export class GameManager {
   private _state: IGameState;
 
-  constructor(state: IGameState = initialGameState) {
+  constructor(state: IGameState = initialGameState()) {
     this._state = state;
   }
 
@@ -48,7 +48,7 @@ export class GameManager {
   }
 
   public resetGame(): IGameState {
-    this.setState(initialGameState);
+    this.setState(initialGameState());
     return this.getState();
   }
 }
