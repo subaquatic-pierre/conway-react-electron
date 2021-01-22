@@ -62,7 +62,6 @@ export const gameReducer = (
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
-      console.log("inside reset game", state);
 
       return initialGameState();
 
@@ -81,7 +80,6 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         yPos: state.startingLocation.yPos,
       };
 
-      console.log("inside create bot", state);
       const newBot = new Bot("Jeff", newStartingLocation, state.numberOfBots);
 
       return {
@@ -92,8 +90,6 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       };
 
     case botActionTypes.RESET_BOTS:
-      console.log("inside reset bots", state);
-
       return initialBotState();
 
     case botActionTypes.SELECT_BOT:
