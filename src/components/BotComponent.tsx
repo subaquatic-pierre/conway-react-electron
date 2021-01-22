@@ -1,6 +1,6 @@
 import React from "react";
 import { BotContext } from "../App";
-import { IBotLocation } from "../classes/Bot";
+import { IBotLocation } from "../context/Bot";
 import { botActionTypes } from "../context/actionTypes";
 
 export interface IBotProps {
@@ -35,16 +35,19 @@ export const Bot: React.FC<IBotProps> = ({
 }: IBotProps) => {
   const { botState, botDispatch } = React.useContext(BotContext);
 
-  const handleClick = () => {
+  const handleClick = (botID: number) => {
     console.log(botState);
     botDispatch({
       type: botActionTypes.SELECT_BOT,
-      data: { id: id },
+      data: { id: botID },
     });
   };
 
   return (
-    <div onClick={handleClick} style={styles({ xPos, yPos, selected })}>
+    <div
+      onClick={() => handleClick(id)}
+      style={styles({ xPos, yPos, selected })}
+    >
       ID: {id}, Name: {name}
     </div>
   );

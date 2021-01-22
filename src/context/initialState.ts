@@ -1,4 +1,4 @@
-import { Bot } from "../classes/Bot";
+import { Bot, IBotLocation, initialStartingLocation } from "./Bot";
 
 export interface IGameState {
   intervalID: NodeJS.Timeout | any;
@@ -9,6 +9,7 @@ export interface IGameState {
 export interface IBotState {
   numberOfBots: number;
   bots: Bot[];
+  startingLocation: IBotLocation;
 }
 
 export const initialGameState: IGameState = {
@@ -18,6 +19,7 @@ export const initialGameState: IGameState = {
 };
 
 export const initialBotState: IBotState = {
+  startingLocation: initialStartingLocation,
   numberOfBots: 1,
-  bots: [new Bot("Bob")],
+  bots: [new Bot("Bob", initialStartingLocation, 0)],
 };

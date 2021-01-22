@@ -1,4 +1,4 @@
-import { IBotState, initialBotState } from "../context/initialState";
+import { IBotState, initialBotState } from "./initialState";
 import { Bot } from "./Bot";
 
 export class BotManager {
@@ -13,7 +13,6 @@ export class BotManager {
   }
 
   public resetBots(): Bot[] {
-    Bot.resetStatingLocation();
     this._bots = initialBotState.bots;
     return this.getBots();
   }
@@ -23,11 +22,6 @@ export class BotManager {
     for (let i = 0; i < this._bots.length; i++) {
       bots[i].move(direction, distance);
     }
-  }
-
-  public createBot(name: string): Bot {
-    const newBot = new Bot(name);
-    return newBot;
   }
 
   public selectBot(state: IBotState, id: number, numberOfBots: number): Bot[] {

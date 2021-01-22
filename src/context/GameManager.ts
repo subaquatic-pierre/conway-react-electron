@@ -1,5 +1,5 @@
 import { Bot } from "./Bot";
-import { initialGameState, IGameState } from "../context/initialState";
+import { initialGameState, IGameState } from "./initialState";
 
 export class GameManager {
   private _state: IGameState;

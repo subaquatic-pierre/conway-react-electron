@@ -3,49 +3,22 @@ export interface IBotLocation {
   yPos: number;
 }
 
-const initialStartingLocation: IBotLocation = {
+export const initialStartingLocation: IBotLocation = {
   xPos: 10,
   yPos: 10,
 };
 
-interface IBotState {
-  location: IBotLocation;
-}
-
 export class Bot {
-  static startingLocation: IBotLocation = initialStartingLocation;
-  static botIDCount: number = 0;
-
-  static resetStatingLocation(): void {
-    Bot.startingLocation = initialStartingLocation;
-  }
-
   private _name: string;
   private _location: IBotLocation;
   private _id: number;
   private _selected: boolean;
 
-  constructor(name: string) {
+  constructor(name: string, startingLocation: IBotLocation, id: number) {
     this._name = name;
-    this._location = Bot.startingLocation;
-    this._id = Bot.botIDCount;
+    this._location = startingLocation;
+    this._id = id;
     this._selected = false;
-
-    // Update new starting location for each bot
-    const newStartingLocation: IBotLocation = {
-      xPos: Bot.startingLocation.xPos + 60,
-      yPos: Bot.startingLocation.yPos,
-    };
-    Bot.startingLocation = newStartingLocation;
-    Bot.botIDCount++;
-  }
-
-  public getState(): IBotState {
-    const state: IBotState = {
-      location: this._location,
-    };
-
-    return state;
   }
 
   public getName(): string {

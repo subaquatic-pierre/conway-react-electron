@@ -1,17 +1,14 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { BotManager } from "../classes/BotManager";
-import { Bot } from "../classes/Bot";
-import {
-  IGameState,
-  IBotState,
-  initialBotState,
-  initialGameState,
-} from "./initialState";
+import { BotManager } from "./BotManager";
+import { Bot, IBotLocation } from "./Bot";
+import { IGameState, IBotState, initialBotState } from "./initialState";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
   data?: any;
 }
+
+// GAME METHODS
 
 const gameLoop = (state: IGameState, action: IActions): IGameState => {
   return {
@@ -28,6 +25,18 @@ const resetGameState = () => {
     running: false,
     loopCount: 0,
   };
+};
+
+// BOT METHODS
+
+const updateSelectedBots = (bots: Bot[], state: any, data: any): void => {
+  for (let i = 0; i < state.numberOfBots; i++) {
+    if (bots[i].getID() === data.id) {
+      bots[i].setSelected(true);
+    } else {
+      bots[i].setSelected(false);
+    }
+  }
 };
 
 const stopGame = (state: IGameState) => {
@@ -63,9 +72,15 @@ export const gameReducer = (
 export const botReducer = (state: IBotState, action: IActions): IBotState => {
   switch (action.type) {
     case botActionTypes.ADD_BOT:
-      const newBot = new Bot("Jeff");
+      const newStartingLocation: IBotLocation = {
+        xPos: state.startingLocation.xPos + 60,
+        yPos: state.startingLocation.yPos,
+      };
+      const newBot = new Bot("Jeff", newStartingLocation, state.numberOfBots);
+
       return {
         ...state,
+        startingLocation: newStartingLocation,
         numberOfBots: state.numberOfBots++,
         bots: [...state.bots, newBot],
       };
@@ -75,13 +90,8 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
 
     case botActionTypes.SELECT_BOT:
       const bots = state.bots;
-      for (let i = 0; i < state.numberOfBots; i++) {
-        if (bots[i].getID() === action.data.id) {
-          bots[i].setSelected(true);
-        } else {
-          bots[i].setSelected(false);
-        }
-      }
+
+      updateSelectedBots(bots, state, action.data);
 
       return {
         ...state,
