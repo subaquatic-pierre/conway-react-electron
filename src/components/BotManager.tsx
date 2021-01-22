@@ -12,28 +12,28 @@ export const BotManager: React.FC = () => {
         case "ArrowRight":
           botDispatch({
             type: botActionTypes.MOVE_BOT,
-            data: { direction: "right", distance: 10 },
+            data: { direction: 0, distance: 10 },
           });
           break;
 
         case "ArrowLeft":
           botDispatch({
             type: botActionTypes.MOVE_BOT,
-            data: { direction: "left", distance: 10 },
+            data: { direction: 180, distance: 10 },
           });
           break;
 
         case "ArrowUp":
           botDispatch({
             type: botActionTypes.MOVE_BOT,
-            data: { direction: "up", distance: 10 },
+            data: { direction: 270, distance: 10 },
           });
           break;
 
         case "ArrowDown":
           botDispatch({
             type: botActionTypes.MOVE_BOT,
-            data: { direction: "down", distance: 10 },
+            data: { direction: 90, distance: 10 },
           });
           break;
 

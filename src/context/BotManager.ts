@@ -1,4 +1,4 @@
-import { IBotState, initialBotState } from "./initialState";
+import { IBotState } from "./initialState";
 import { Bot } from "./Bot";
 
 export class BotManager {
@@ -10,13 +10,6 @@ export class BotManager {
 
   public getBots(): Bot[] {
     return this._bots;
-  }
-
-  public moveBots(direction: string, distance: number): void {
-    const bots: Bot[] = this.getBots();
-    for (let i = 0; i < this._bots.length; i++) {
-      bots[i].move(direction, distance);
-    }
   }
 
   public selectBot(state: IBotState, id: number, numberOfBots: number): Bot[] {

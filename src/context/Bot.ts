@@ -45,51 +45,21 @@ export class Bot {
     this._location = value;
   }
 
-  public move(direction: string, distance: number): void {
+  private _calcDirectionRad(deg: number) {
+    const radian = (deg * Math.PI) / 180;
+    return radian;
+  }
+
+  public move(direction: number, distance: number): void {
     const currXPos = this._location.xPos;
     const currYPos = this._location.yPos;
 
-    let newLocation: IBotLocation;
-    let newXPos: number;
-    let newYPos: number;
-    switch (direction) {
-      case "up":
-        newYPos = currYPos - distance;
-        newLocation = {
-          xPos: currXPos,
-          yPos: newYPos,
-        };
-        break;
+    const directionRad = this._calcDirectionRad(direction);
 
-      case "right":
-        newXPos = currXPos + distance;
-        newLocation = {
-          xPos: newXPos,
-          yPos: currYPos,
-        };
-        break;
-
-      case "down":
-        newYPos = currYPos + distance;
-        newLocation = {
-          xPos: currXPos,
-          yPos: newYPos,
-        };
-        break;
-
-      case "left":
-        newXPos = currXPos - distance;
-        newLocation = {
-          xPos: newXPos,
-          yPos: currYPos,
-        };
-        break;
-
-      default:
-        throw new Error(
-          `Incorrect direction chosen to move the bot to, choices are: "up", "down", "left","right"`
-        );
-    }
+    const newLocation: IBotLocation = {
+      xPos: currXPos + distance * Math.cos(directionRad),
+      yPos: currYPos + distance * Math.sin(directionRad),
+    };
 
     this.setLocation(newLocation);
   }

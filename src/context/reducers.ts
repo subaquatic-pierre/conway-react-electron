@@ -103,7 +103,7 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       };
 
     case botActionTypes.MOVE_BOT:
-      const direction: string = action.data.direction;
+      const direction: number = action.data.direction;
       const distance: number = action.data.distance;
       const botsMove: Bot[] = state.bots;
 
