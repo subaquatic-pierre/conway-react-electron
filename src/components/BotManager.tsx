@@ -10,8 +10,6 @@ export const BotManager: React.FC = () => {
     window.addEventListener("keydown", (e) => {
       switch (e.code) {
         case "ArrowRight":
-          console.log(e.code);
-
           botDispatch({
             type: botActionTypes.MOVE_BOT,
             data: { direction: "right", distance: 10 },
@@ -19,8 +17,6 @@ export const BotManager: React.FC = () => {
           break;
 
         case "ArrowLeft":
-          console.log(e.code);
-
           botDispatch({
             type: botActionTypes.MOVE_BOT,
             data: { direction: "left", distance: 10 },
