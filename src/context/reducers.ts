@@ -22,6 +22,21 @@ const gameLoop = (state: IGameState, action: IActions): IGameState => {
   };
 };
 
+const resetGameState = () => {
+  return {
+    intervalID: null,
+    running: false,
+    loopCount: 0,
+  };
+};
+
+const stopGame = (state: IGameState) => {
+  return {
+    ...state,
+    running: false,
+  };
+};
+
 export const gameReducer = (
   state: IGameState,
   action: IActions
@@ -32,15 +47,11 @@ export const gameReducer = (
 
     case gameActionTypes.STOP_GAME:
       clearInterval(state.intervalID);
-      console.log(state.intervalID);
-      return {
-        ...state,
-        running: false,
-      };
+      return stopGame(state);
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
-      return initialGameState;
+      return resetGameState();
 
     default:
       throw new Error(
