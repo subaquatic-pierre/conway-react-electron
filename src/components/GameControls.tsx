@@ -17,7 +17,7 @@ export const GameControls: React.FC = () => {
         });
         botDispatch({
           type: botActionTypes.UPDATE_BOT_LOCATION,
-          data: { loopCount: gameState.loopCount },
+          data: { loopCount: gameState.loopCount, distance: 5 },
         });
       }, 50);
     } else {

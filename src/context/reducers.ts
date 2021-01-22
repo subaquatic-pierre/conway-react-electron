@@ -125,6 +125,7 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       };
 
     case botActionTypes.MAP_SETUP:
+      console.log("In map setup");
       return {
         ...state,
         mapDimension: {
@@ -136,37 +137,45 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
 
     case botActionTypes.UPDATE_BOT_LOCATION:
       const bots = state.bots;
+      const travelDistance = action.data.distance;
+      const mapDims = state.mapDimension;
 
       // Get the bot any initialize new direction
       const bot = bots[0];
-      let botDirection: number | null;
 
       // Set initial bot location and map status
       const currLocation: IBotLocation = bot.getLocation();
       let botInMap = false;
 
-      // while (botInMap === false) {
-      const randDirection = Math.floor(Math.random() * Math.floor(360));
+      let randDirection = generateRandomDirection();
+      let botDirection: number = bot.getPrevDirection() || randDirection;
 
-      if (state.loopCount % 5 === 0 || bot.getPrevDirection() === null) {
-        botDirection = randDirection;
-      } else {
-        botDirection = bot.getPrevDirection() as number;
+      while (!botInMap) {
+        const newLocation = getNewLocation(
+          botDirection,
+          travelDistance,
+          currLocation
+        );
+
+        if (isLocationInMap(newLocation, mapDims)) {
+          bot.move(botDirection, action.data.distance);
+          botInMap = true;
+        } else {
+          botDirection = generateRandomDirection();
+        }
+
+        // if (state.loopCount % 5 === 0 || bot.getPrevDirection() === null) {
+        //   botDirection = randDirection;
+        // } else {
+        //   botDirection = bot.getPrevDirection() as number;
+        // }
+
+        // if (isLocationInMap(newLocation, state.mapDimension)) {
+        //   botInMap = true;
+        //   bot.move(botDirection, action.data.distance);
+        // }
+        // bot.move(botDirection, action.data.distance);
       }
-
-      const newLocation = getNewLocation(
-        botDirection,
-        action.data.distance,
-        currLocation
-      );
-
-      if (isLocationInMap(newLocation, state.mapDimension)) {
-        botInMap = true;
-        bot.move(botDirection, action.data.distance);
-      }
-      bot.move(botDirection, action.data.distance);
-
-      // }
 
       return {
         ...state,
@@ -179,6 +188,10 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         `Undefined action type: ${action.type} passed to reducer`
       );
   }
+};
+
+const generateRandomDirection = (): number => {
+  return Math.floor(Math.random() * Math.floor(360));
 };
 
 const getNewLocation = (
