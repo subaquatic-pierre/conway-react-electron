@@ -6,40 +6,46 @@ import { Bot as BotComponent } from "./BotComponent";
 export const BotManager: React.FC = () => {
   const { botState, botDispatch } = React.useContext(BotContext);
 
-  window.addEventListener("keyup", (e) => {
-    switch (e.code) {
-      case "ArrowRight":
-        botDispatch({
-          type: botActionTypes.MOVE_BOT,
-          data: { direction: "right", distance: 10 },
-        });
-        break;
+  React.useEffect(() => {
+    window.addEventListener("keydown", (e) => {
+      switch (e.code) {
+        case "ArrowRight":
+          console.log(e.code);
 
-      case "ArrowLeft":
-        botDispatch({
-          type: botActionTypes.MOVE_BOT,
-          data: { direction: "left", distance: 10 },
-        });
-        break;
+          botDispatch({
+            type: botActionTypes.MOVE_BOT,
+            data: { direction: "right", distance: 10 },
+          });
+          break;
 
-      case "ArrowUp":
-        botDispatch({
-          type: botActionTypes.MOVE_BOT,
-          data: { direction: "up", distance: 10 },
-        });
-        break;
+        case "ArrowLeft":
+          console.log(e.code);
 
-      case "ArrowDown":
-        botDispatch({
-          type: botActionTypes.MOVE_BOT,
-          data: { direction: "down", distance: 10 },
-        });
-        break;
+          botDispatch({
+            type: botActionTypes.MOVE_BOT,
+            data: { direction: "left", distance: 10 },
+          });
+          break;
 
-      default:
-        break;
-    }
-  });
+        case "ArrowUp":
+          botDispatch({
+            type: botActionTypes.MOVE_BOT,
+            data: { direction: "up", distance: 10 },
+          });
+          break;
+
+        case "ArrowDown":
+          botDispatch({
+            type: botActionTypes.MOVE_BOT,
+            data: { direction: "down", distance: 10 },
+          });
+          break;
+
+        default:
+          break;
+      }
+    });
+  }, []);
 
   return (
     <>

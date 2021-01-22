@@ -13,6 +13,7 @@ export interface IActions {
 }
 
 // GAME METHODS
+// ================
 
 const gameLoop = (state: IGameState, action: IActions): IGameState => {
   return {
@@ -23,7 +24,17 @@ const gameLoop = (state: IGameState, action: IActions): IGameState => {
   };
 };
 
+const stopGame = (state: IGameState) => {
+  return {
+    ...state,
+    running: false,
+  };
+};
+
+// ==================
+
 // BOT METHODS
+// ==================
 
 const updateSelectedBots = (bots: Bot[], state: any, data: any): void => {
   for (let i = 0; i < state.numberOfBots; i++) {
@@ -35,12 +46,7 @@ const updateSelectedBots = (bots: Bot[], state: any, data: any): void => {
   }
 };
 
-const stopGame = (state: IGameState) => {
-  return {
-    ...state,
-    running: false,
-  };
-};
+// ==================
 
 export const gameReducer = (
   state: IGameState,
@@ -56,6 +62,8 @@ export const gameReducer = (
 
     case gameActionTypes.RESET_GAME:
       clearInterval(state.intervalID);
+      console.log("inside reset game", state);
+
       return initialGameState();
 
     default:
@@ -72,16 +80,20 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         xPos: state.startingLocation.xPos + 60,
         yPos: state.startingLocation.yPos,
       };
+
+      console.log("inside create bot", state);
       const newBot = new Bot("Jeff", newStartingLocation, state.numberOfBots);
 
       return {
         ...state,
         startingLocation: newStartingLocation,
-        numberOfBots: state.numberOfBots++,
+        numberOfBots: state.numberOfBots + 1,
         bots: [...state.bots, newBot],
       };
 
     case botActionTypes.RESET_BOTS:
+      console.log("inside reset bots", state);
+
       return initialBotState();
 
     case botActionTypes.SELECT_BOT:
@@ -98,14 +110,20 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
       const direction: string = action.data.direction;
       const distance: number = action.data.distance;
       const botsMove: Bot[] = state.bots;
+
       const selectedBot: Bot = botsMove.filter((bot: Bot) =>
         bot.isSelected()
       )[0];
-      selectedBot.move(direction, distance);
+
+      try {
+        selectedBot.move(direction, distance);
+      } catch (error) {
+        console.warn("No bot selected");
+      }
 
       return {
         ...state,
-        bots: [...state.bots, selectedBot],
+        bots: botsMove,
       };
 
     default:

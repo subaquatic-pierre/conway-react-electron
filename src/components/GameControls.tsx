@@ -29,13 +29,12 @@ export const GameControls: React.FC = () => {
   };
 
   const handleResetClick = () => {
+    botDispatch({
+      type: botActionTypes.RESET_BOTS,
+    });
     gameDispatch({
       type: gameActionTypes.RESET_GAME,
       data: { running: false },
-    });
-
-    botDispatch({
-      type: botActionTypes.RESET_BOTS,
     });
   };
 
