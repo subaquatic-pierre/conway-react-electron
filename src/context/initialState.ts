@@ -6,10 +6,19 @@ export interface IGameState {
   loopCount: number;
 }
 
+export interface IMapDimensions {
+  topOffset: number;
+  leftOffset: number;
+  height: number;
+  width: number;
+}
+
 export interface IBotState {
   numberOfBots: number;
   bots: Bot[];
   startingLocation: IBotLocation;
+  loopCount: number;
+  mapDimension: IMapDimensions;
 }
 
 export const initialGameState = (): IGameState => ({
@@ -18,8 +27,17 @@ export const initialGameState = (): IGameState => ({
   loopCount: 0,
 });
 
+export const mapDimension: IMapDimensions = {
+  topOffset: -1,
+  leftOffset: -1,
+  height: 900,
+  width: 2000,
+};
+
 export const initialBotState = (): IBotState => ({
   startingLocation: initialStartingLocation,
   numberOfBots: 1,
   bots: [new Bot("Bob", initialStartingLocation, 0)],
+  loopCount: 0,
+  mapDimension: mapDimension,
 });

@@ -4,8 +4,8 @@ export interface IBotLocation {
 }
 
 export const initialStartingLocation: IBotLocation = {
-  xPos: 10,
-  yPos: 10,
+  xPos: 350,
+  yPos: 390,
 };
 
 export class Bot {
@@ -13,12 +13,14 @@ export class Bot {
   private _location: IBotLocation;
   private _id: number;
   private _selected: boolean;
+  private _prevDirection: number | null;
 
   constructor(name: string, startingLocation: IBotLocation, id: number) {
     this._name = name;
     this._location = startingLocation;
     this._id = id;
     this._selected = false;
+    this._prevDirection = null;
   }
 
   public getName(): string {
@@ -50,7 +52,16 @@ export class Bot {
     return radian;
   }
 
+  public getPrevDirection(): number | null {
+    return this._prevDirection;
+  }
+
+  public setPrevDirection(direction: number): void {
+    this._prevDirection = direction;
+  }
+
   public move(direction: number, distance: number): void {
+    this.setPrevDirection(direction);
     const currXPos = this._location.xPos;
     const currYPos = this._location.yPos;
 

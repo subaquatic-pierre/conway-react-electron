@@ -10,6 +10,7 @@ import {
   IBotState,
 } from "./context/initialState";
 import { botReducer, gameReducer, IActions } from "./context/reducers";
+import { botActionTypes } from "./context/actionTypes";
 
 interface IGameContextProps {
   gameState: IGameState;
@@ -33,6 +34,15 @@ const App: React.FC = () => {
     botReducer,
     initialBotState()
   );
+
+  React.useEffect(() => {
+    const map = document.getElementById("map");
+
+    botDispatch({
+      type: botActionTypes.MAP_SETUP,
+      data: { leftOffset: map?.offsetLeft, topOffset: map?.offsetTop },
+    });
+  }, []);
 
   return (
     <GameContext.Provider value={{ gameState, gameDispatch }}>

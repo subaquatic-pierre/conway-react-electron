@@ -11,11 +11,15 @@ export const GameControls: React.FC = () => {
   const handleStartClick = () => {
     if (!gameState.running) {
       const intervalID: NodeJS.Timeout = setInterval(() => {
-        return gameDispatch({
+        gameDispatch({
           type: gameActionTypes.RUN_GAME,
           data: { running: true, intervalID: intervalID },
         });
-      }, 1000);
+        botDispatch({
+          type: botActionTypes.UPDATE_BOT_LOCATION,
+          data: { loopCount: gameState.loopCount },
+        });
+      }, 50);
     } else {
       console.log("Game is already running");
     }

@@ -5,6 +5,8 @@ import {
   IBotState,
   initialBotState,
   initialGameState,
+  mapDimension,
+  IMapDimensions,
 } from "./initialState";
 
 export interface IActions {
@@ -122,9 +124,105 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         bots: botsMove,
       };
 
+    case botActionTypes.MAP_SETUP:
+      return {
+        ...state,
+        mapDimension: {
+          ...mapDimension,
+          leftOffset: action.data.leftOffset,
+          topOffset: action.data.topOffset,
+        },
+      };
+
+    case botActionTypes.UPDATE_BOT_LOCATION:
+      const bots = state.bots;
+
+      // Get the bot any initialize new direction
+      const bot = bots[0];
+      let botDirection: number | null;
+
+      // Set initial bot location and map status
+      const currLocation: IBotLocation = bot.getLocation();
+      let botInMap = false;
+
+      // while (botInMap === false) {
+      const randDirection = Math.floor(Math.random() * Math.floor(360));
+
+      if (state.loopCount % 5 === 0 || bot.getPrevDirection() === null) {
+        botDirection = randDirection;
+      } else {
+        botDirection = bot.getPrevDirection() as number;
+      }
+
+      const newLocation = getNewLocation(
+        botDirection,
+        action.data.distance,
+        currLocation
+      );
+
+      if (isLocationInMap(newLocation, state.mapDimension)) {
+        botInMap = true;
+        bot.move(botDirection, action.data.distance);
+      }
+      bot.move(botDirection, action.data.distance);
+
+      // }
+
+      return {
+        ...state,
+        loopCount: state.loopCount + 1,
+        bots: bots,
+      };
+
     default:
       throw new Error(
         `Undefined action type: ${action.type} passed to reducer`
       );
+  }
+};
+
+const getNewLocation = (
+  deg: number,
+  distance: number,
+  currLocation: IBotLocation
+): IBotLocation => {
+  const currYPos: number = currLocation.yPos;
+  const currXPos: number = currLocation.xPos;
+  const radian = (deg * Math.PI) / 180;
+
+  const newLocation: IBotLocation = {
+    xPos: currXPos + distance * Math.cos(radian),
+    yPos: currYPos + distance * Math.sin(radian),
+  };
+
+  return newLocation;
+};
+
+const isLocationInMap = (
+  location: IBotLocation,
+  mapDimension: IMapDimensions
+): boolean => {
+  // Get bot boundary
+  const botRight = location.xPos + 50;
+  const botLeft = location.xPos;
+  const botTop = location.yPos;
+  const botBottom = location.yPos + 50;
+
+  // Get map boundary
+  const mapTop = mapDimension.topOffset;
+  const mapRight = mapDimension.leftOffset + mapDimension.width;
+  const mapBottom = mapDimension.topOffset + mapDimension.height;
+  const mapLeft = mapDimension.leftOffset;
+
+  // Check new location is within the map
+  if (
+    botRight <= mapRight &&
+    botLeft >= mapLeft &&
+    botBottom <= mapBottom &&
+    botTop >= mapTop
+  ) {
+    return true;
+  } else {
+    return false;
   }
 };
