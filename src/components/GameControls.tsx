@@ -6,7 +6,7 @@ export let intervalID: NodeJS.Timeout;
 
 export const GameControls: React.FC = () => {
   const { gameState, gameDispatch } = React.useContext(GameContext);
-  const { botDispatch } = React.useContext(BotContext);
+  const { botState, botDispatch } = React.useContext(BotContext);
 
   const handleStartClick = () => {
     if (!gameState.running) {
@@ -19,7 +19,7 @@ export const GameControls: React.FC = () => {
           type: botActionTypes.UPDATE_BOT_LOCATION,
           data: { loopCount: gameState.loopCount, distance: 5 },
         });
-      }, 50);
+      }, botState.botSpeed);
     } else {
       console.log("Game is already running");
     }
@@ -46,9 +46,20 @@ export const GameControls: React.FC = () => {
     <div>
       <h2>Game Controls</h2>
       <hr />
-      <button onClick={handleStartClick}>Start</button>
-      <button onClick={handleStopClick}>Stop</button>
-      <button onClick={handleResetClick}>Reset</button>
+      <div style={{ padding: "1rem" }}>
+        Toggle random walk
+        <input
+          type="checkbox"
+          name="randomWalk"
+          id="randomWalk"
+          placeholder="Toggle random Walk"
+        />
+      </div>
+      <div style={{ padding: "1rem" }}>
+        <button onClick={handleStartClick}>Start</button>
+        <button onClick={handleStopClick}>Stop</button>
+        <button onClick={handleResetClick}>Reset</button>
+      </div>
     </div>
   );
 };

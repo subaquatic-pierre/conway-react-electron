@@ -19,6 +19,8 @@ export interface IBotState {
   startingLocation: IBotLocation;
   loopCount: number;
   mapDimension: IMapDimensions;
+  randomWalk: boolean;
+  botSpeed: number;
 }
 
 export const initialGameState = (): IGameState => ({
@@ -40,4 +42,6 @@ export const initialBotState = (): IBotState => ({
   bots: [new Bot("Bob", initialStartingLocation, 0)],
   loopCount: 0,
   mapDimension: mapDimension,
+  randomWalk: false,
+  botSpeed: 50,
 });
