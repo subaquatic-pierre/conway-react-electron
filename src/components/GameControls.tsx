@@ -42,6 +42,16 @@ export const GameControls: React.FC = () => {
     });
   };
 
+  const handleToggleRandomWalk = () => {
+    const el: any = document.getElementById("randomWalk");
+    const checked: boolean = el.checked ? true : false;
+
+    botDispatch({
+      type: botActionTypes.SET_RANDOM_WALK,
+      data: { randomWalk: checked },
+    });
+  };
+
   return (
     <div>
       <h2>Game Controls</h2>
@@ -49,6 +59,7 @@ export const GameControls: React.FC = () => {
       <div style={{ padding: "1rem" }}>
         Toggle random walk
         <input
+          onChange={handleToggleRandomWalk}
           type="checkbox"
           name="randomWalk"
           id="randomWalk"

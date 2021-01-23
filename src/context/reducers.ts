@@ -158,29 +158,26 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         );
 
         if (isLocationInMap(newLocation, mapDims)) {
+          if (state.randomWalk && state.loopCount % 10 === 0) {
+            botDirection = generateRandomDirection();
+          }
           bot.move(botDirection, action.data.distance);
           botInMap = true;
         } else {
           botDirection = generateRandomDirection();
         }
-
-        // if (state.loopCount % 5 === 0 || bot.getPrevDirection() === null) {
-        //   botDirection = randDirection;
-        // } else {
-        //   botDirection = bot.getPrevDirection() as number;
-        // }
-
-        // if (isLocationInMap(newLocation, state.mapDimension)) {
-        //   botInMap = true;
-        //   bot.move(botDirection, action.data.distance);
-        // }
-        // bot.move(botDirection, action.data.distance);
       }
 
       return {
         ...state,
         loopCount: state.loopCount + 1,
         bots: bots,
+      };
+
+    case botActionTypes.SET_RANDOM_WALK:
+      return {
+        ...state,
+        randomWalk: action.data.randomWalk,
       };
 
     default:

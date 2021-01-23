@@ -32,8 +32,8 @@ export const initialGameState = (): IGameState => ({
 export const mapDimension: IMapDimensions = {
   topOffset: -1,
   leftOffset: -1,
-  height: 900,
-  width: 2000,
+  height: 500,
+  width: 500,
 };
 
 export const initialBotState = (): IBotState => ({
