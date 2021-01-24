@@ -1,7 +1,6 @@
 import React from "react";
 import { BotContext } from "../App";
 import { botActionTypes } from "../context/actionTypes";
-import { mapDimension } from "../context/initialState";
 import { Bot as BotComponent } from "./BotComponent";
 
 export const BotManager: React.FC = () => {
@@ -52,8 +51,8 @@ export const BotManager: React.FC = () => {
         id="map"
         style={{
           position: "relative",
-          width: mapDimension.width,
-          height: mapDimension.height,
+          width: botState.mapDimension.width,
+          height: botState.mapDimension.height,
           backgroundColor: "#d29bd4",
         }}
       >

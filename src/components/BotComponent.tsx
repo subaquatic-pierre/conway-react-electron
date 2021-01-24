@@ -1,6 +1,6 @@
 import React from "react";
 import { BotContext } from "../App";
-import { IBotLocation } from "../context/Bot";
+import { IBotLocation } from "../models/Bot";
 import { botActionTypes } from "../context/actionTypes";
 
 export interface IBotProps {

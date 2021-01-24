@@ -3,14 +3,11 @@ import { Map } from "./components/Map";
 import { GameControls } from "./components/GameControls";
 import { BotControls } from "./components/BotControls";
 import { ControlBox } from "./components/ControlBox";
-import {
-  initialGameState,
-  initialBotState,
-  IGameState,
-  IBotState,
-} from "./context/initialState";
 import { botReducer, gameReducer, IActions } from "./context/reducers";
 import { botActionTypes } from "./context/actionTypes";
+
+import { GameManager, IGameState } from "./models/GameManager";
+import { BotManager, IBotState } from "./models/BotManager";
 
 interface IGameContextProps {
   gameState: IGameState;
@@ -22,17 +19,20 @@ interface IBotContextProps {
   botDispatch: Dispatch<IActions>;
 }
 
+const game = new GameManager({} as IGameState);
+const botManager = new BotManager({} as IBotState);
+
 export const GameContext = React.createContext({} as IGameContextProps);
 export const BotContext = React.createContext({} as IBotContextProps);
 
 const App: React.FC = () => {
   const [gameState, gameDispatch] = React.useReducer(
     gameReducer,
-    initialGameState()
+    game.getInitialGameState()
   );
   const [botState, botDispatch] = React.useReducer(
     botReducer,
-    initialBotState()
+    botManager.getInitialBotState()
   );
 
   React.useEffect(() => {
