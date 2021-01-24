@@ -1,4 +1,6 @@
 import React, { Dispatch } from "react";
+
+import "./App.scss";
 import { Map } from "./components/Map";
 import { GameControls } from "./components/GameControls";
 import { BotControls } from "./components/BotControls";
@@ -47,7 +49,7 @@ const App: React.FC = () => {
   return (
     <GameContext.Provider value={{ gameState, gameDispatch }}>
       <BotContext.Provider value={{ botState, botDispatch }}>
-        <div className="App">
+        <div className="App container">
           <Map />
           <ControlBox>
             <GameControls />

@@ -9,7 +9,13 @@ export const GameControls: React.FC = () => {
   const { botState, botDispatch } = React.useContext(BotContext);
 
   const handleStartClick = () => {
+    // Ensure game is not running
     if (!gameState.running) {
+      if (botState.numberOfBots <= 0) {
+        console.log("There are no bots to start the game");
+        return;
+      }
+      // Setup game loop with bot speed interval
       const intervalID: NodeJS.Timeout = setInterval(() => {
         gameDispatch({
           type: gameActionTypes.RUN_GAME,
@@ -17,7 +23,7 @@ export const GameControls: React.FC = () => {
         });
         botDispatch({
           type: botActionTypes.UPDATE_BOT_LOCATION,
-          data: { loopCount: gameState.loopCount, distance: 1 },
+          data: { distance: 1 },
         });
       }, botState.botSpeed);
     } else {
@@ -42,30 +48,10 @@ export const GameControls: React.FC = () => {
     });
   };
 
-  const handleToggleRandomWalk = () => {
-    const el: any = document.getElementById("randomWalk");
-    const checked: boolean = el.checked ? true : false;
-
-    botDispatch({
-      type: botActionTypes.SET_RANDOM_WALK,
-      data: { randomWalk: checked },
-    });
-  };
-
   return (
     <div>
       <h2>Game Controls</h2>
       <hr />
-      <div style={{ padding: "1rem" }}>
-        Toggle random walk
-        <input
-          onChange={handleToggleRandomWalk}
-          type="checkbox"
-          name="randomWalk"
-          id="randomWalk"
-          placeholder="Toggle random Walk"
-        />
-      </div>
       <div style={{ padding: "1rem" }}>
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>

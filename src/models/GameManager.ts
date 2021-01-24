@@ -1,4 +1,5 @@
 import { IActions } from "../context/reducers";
+import { IBotState } from "./BotManager";
 
 export interface IGameState {
   intervalID: NodeJS.Timeout | any;

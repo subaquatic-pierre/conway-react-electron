@@ -67,6 +67,9 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
         randomWalk: action.data.randomWalk,
       };
 
+    case botActionTypes.REMOVE_BOT:
+      return botManager.removeBot(state, action.data?.lastBot);
+
     default:
       throw new Error(
         `Undefined action type: ${action.type} passed to reducer`

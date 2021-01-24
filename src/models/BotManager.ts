@@ -66,10 +66,16 @@ export class BotManager {
   }
 
   public addBot(state: IBotState, action: IActions): IBotState {
-    const newStartingLocation: IBotLocation = {
-      xPos: state.startingLocation.xPos + Bot.dimensions.width + 10,
-      yPos: state.startingLocation.yPos,
-    };
+    let newStartingLocation: IBotLocation;
+
+    if (state.numberOfBots === 0) {
+      newStartingLocation = this._calculateBotStartLocation();
+    } else {
+      newStartingLocation = {
+        xPos: state.startingLocation.xPos + Bot.dimensions.width + 10,
+        yPos: state.startingLocation.yPos,
+      };
+    }
 
     const newBot = new Bot("Jeff", newStartingLocation, state.numberOfBots);
 
@@ -115,7 +121,7 @@ export class BotManager {
     const bots = state.bots;
     const travelDistance = action.data.distance;
 
-    // Get the bot and initialize new direction
+    // Loop through all bots in map
     for (let i = 0; i < bots.length; i++) {
       const bot = bots[i];
       // Set initial bot location and map status
@@ -156,6 +162,28 @@ export class BotManager {
       ...state,
       loopCount: state.loopCount + 1,
       bots: bots,
+    };
+  }
+
+  public removeBot(state: IBotState, lastBot?: boolean): IBotState {
+    let startingLocation: IBotLocation;
+    if (lastBot) {
+      startingLocation = this._calculateBotStartLocation();
+    } else {
+      startingLocation = {
+        xPos: state.startingLocation.xPos - Bot.dimensions.width - 10,
+        yPos: state.startingLocation.yPos,
+      };
+    }
+
+    const bots = [...state.bots];
+    if (bots.length > 0) bots.pop();
+
+    return {
+      ...state,
+      numberOfBots: bots.length,
+      startingLocation,
+      bots,
     };
   }
 }
