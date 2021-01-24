@@ -21,7 +21,7 @@ export class MapManager {
       topOffset: -1,
       leftOffset: -1,
       height: 500,
-      width: 800,
+      width: 500,
     };
   }
 

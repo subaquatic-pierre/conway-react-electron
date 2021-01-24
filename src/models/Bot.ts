@@ -14,8 +14,8 @@ export class Bot {
 
   static speed: number = 5;
   static dimensions: IBotDimensions = {
-    height: 100,
-    width: 100,
+    height: 50,
+    width: 50,
   };
 
   constructor(name: string, startingLocation: ILocation, id: number) {

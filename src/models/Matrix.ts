@@ -1,3 +1,5 @@
+import { Bot } from "./Bot";
+import { IMapDimensions } from "./MapManager";
 import { Tile } from "./Tile";
 
 export class Matrix {
@@ -5,9 +7,9 @@ export class Matrix {
   private _cols: number;
   private _matrix: Tile[][];
 
-  constructor() {
-    this._rows = 10;
-    this._cols = 10;
+  constructor(mapDimension: IMapDimensions) {
+    this._rows = mapDimension.height / Bot.dimensions.height;
+    this._cols = mapDimension.width / Bot.dimensions.width;
     this._matrix = this._buildMatrix();
   }
 

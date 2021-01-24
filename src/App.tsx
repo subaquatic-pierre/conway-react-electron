@@ -1,9 +1,7 @@
 import React, { Dispatch } from "react";
 
 import "./App.scss";
-import { Map } from "./components/Map";
-import { GameControls } from "./components/GameControls";
-import { BotControls } from "./components/BotControls";
+import { Matrix } from "./components/Matrix";
 import { ControlBox } from "./components/ControlBox";
 import { botReducer, gameReducer, IActions } from "./context/reducers";
 import { botActionTypes } from "./context/actionTypes";
@@ -49,12 +47,10 @@ const App: React.FC = () => {
   return (
     <GameContext.Provider value={{ gameState, gameDispatch }}>
       <BotContext.Provider value={{ botState, botDispatch }}>
-        <div className="App container">
-          <Map />
-          <ControlBox>
-            <GameControls />
-            <BotControls />
-          </ControlBox>
+        <div className="container">
+          <h1>Bot Simulation</h1>
+          <Matrix />
+          <ControlBox />
         </div>
       </BotContext.Provider>
     </GameContext.Provider>

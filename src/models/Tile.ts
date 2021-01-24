@@ -24,7 +24,7 @@ export class Tile {
   }
 
   public printLocation(): string {
-    console.log(this._cellNumber);
+    // console.log(this._cellNumber);
     return this._cellNumber;
   }
 
