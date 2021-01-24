@@ -1,17 +1,17 @@
 import React from "react";
-import { BotContext } from "../../App";
-import { MapManager } from "../../models/MapManager";
+import { BotContext, GameContext } from "../../App";
 import { Matrix as MatrixModel } from "../../models/Matrix";
 import { BotManager } from "../BotManager";
 import { Row } from "./Row";
 import "./style.scss";
 
-const mapManager = new MapManager();
-const matrixModel = new MatrixModel(mapManager.getMapDimensions());
+export const Matrix: React.FC = () => {
+  const { gameState } = React.useContext(GameContext);
+  const matrixSize = gameState.matrixSize;
 
-const matrix = matrixModel.getMatrix();
+  const matrixModel = new MatrixModel(matrixSize);
+  const matrix = matrixModel.getMatrix();
 
-export const Matrix: React.FC = ({ children }) => {
   return (
     <div>
       <h1>Matrix</h1>

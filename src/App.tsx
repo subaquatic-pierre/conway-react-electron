@@ -49,8 +49,10 @@ const App: React.FC = () => {
       <BotContext.Provider value={{ botState, botDispatch }}>
         <div className="container">
           <h1>Bot Simulation</h1>
-          <Matrix />
-          <ControlBox />
+          <div className="app">
+            <Matrix />
+            <ControlBox />
+          </div>
         </div>
       </BotContext.Provider>
     </GameContext.Provider>

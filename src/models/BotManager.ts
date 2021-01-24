@@ -196,4 +196,11 @@ export class BotManager {
       bots,
     };
   }
+
+  public setBotSpeed(state: IBotState, action: IActions): IBotState {
+    return {
+      ...state,
+      botSpeed: action.data.speed,
+    };
+  }
 }

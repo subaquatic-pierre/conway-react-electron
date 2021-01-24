@@ -27,6 +27,10 @@ export const gameReducer = (
 
       return game.resetGame();
 
+    case gameActionTypes.SET_MATRIX_SIZE:
+      console.log("SET MATRIX SIZE: ", action.data.size);
+      return game.setMatrixSize(state, action);
+
     default:
       throw new Error(
         `Undefined action type: ${action.type} passed to reducer`
@@ -69,6 +73,9 @@ export const botReducer = (state: IBotState, action: IActions): IBotState => {
 
     case botActionTypes.REMOVE_BOT:
       return botManager.removeBot(state, action.data?.lastBot);
+
+    case botActionTypes.SET_BOT_SPEED:
+      return botManager.setBotSpeed(state, action);
 
     default:
       throw new Error(

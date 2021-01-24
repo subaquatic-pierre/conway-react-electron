@@ -2,6 +2,7 @@ export enum gameActionTypes {
   RUN_GAME = "RUN_GAME",
   STOP_GAME = "STOP_GAME",
   RESET_GAME = "RESET_GAME",
+  SET_MATRIX_SIZE = "SET_MATRIX_SIZE",
 }
 
 export enum botActionTypes {
@@ -14,4 +15,5 @@ export enum botActionTypes {
   MAP_SETUP = "MAP_SETUP",
   SET_RANDOM_WALK = "SET_RANDOM_WALK",
   REMOVE_BOT = "REMOVE_BOT",
+  SET_BOT_SPEED = "SET_BOT_SPEED",
 }

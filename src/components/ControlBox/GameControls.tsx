@@ -52,7 +52,7 @@ export const GameControls: React.FC = () => {
     <div>
       <h2>Game Controls</h2>
       <hr />
-      <div className="panel">
+      <div className="control-panel">
         <button onClick={handleStartClick}>Start</button>
         <button onClick={handleStopClick}>Stop</button>
         <button onClick={handleResetClick}>Reset</button>

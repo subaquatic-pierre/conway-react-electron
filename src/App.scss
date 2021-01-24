@@ -30,6 +30,15 @@ input {
   }
 }
 
+p {
+  margin: 0.5rem 0rem;
+}
+
 .container {
   padding: 2rem;
+
+  .app {
+    display: flex;
+    justify-content: space-around;
+  }
 }

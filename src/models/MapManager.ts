@@ -13,16 +13,22 @@ export interface IMapDimensions {
   width: number;
 }
 
+const mapDims: IMapDimensions = {
+  topOffset: -1,
+  leftOffset: -1,
+  height: 500,
+  width: 500,
+};
+
 export class MapManager {
   private _mapDimensions: IMapDimensions;
 
   constructor() {
-    this._mapDimensions = {
-      topOffset: -1,
-      leftOffset: -1,
-      height: 500,
-      width: 500,
-    };
+    this._mapDimensions = mapDims;
+  }
+
+  public static getMapDimensions(): IMapDimensions {
+    return mapDims;
   }
 
   public setupMap(action: IActions): IMapDimensions {

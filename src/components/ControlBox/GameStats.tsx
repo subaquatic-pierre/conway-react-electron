@@ -9,7 +9,7 @@ export const GameStats: React.FC = () => {
     <div>
       <h2>Game Stats</h2>
       <hr />
-      <div className="panel">
+      <div className="control-panel">
         <ul>
           <li>Number of Loops: {gameState.loopCount}</li>
           <li>Number of Bots: {botState.numberOfBots}</li>

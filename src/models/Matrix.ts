@@ -1,5 +1,5 @@
 import { Bot } from "./Bot";
-import { IMapDimensions } from "./MapManager";
+import { MapManager } from "./MapManager";
 import { Cell } from "./Cell";
 
 export class Matrix {
@@ -7,9 +7,11 @@ export class Matrix {
   private _cols: number;
   private _matrix: Cell[][];
 
-  constructor(mapDimension: IMapDimensions) {
-    this._rows = mapDimension.height / Bot.getMapSizeRatio();
-    this._cols = mapDimension.width / Bot.getMapSizeRatio();
+  constructor(size: number) {
+    this._rows =
+      (MapManager.getMapDimensions().height * size) / Bot.getMapSizeRatio();
+    this._cols =
+      (MapManager.getMapDimensions().width * size) / Bot.getMapSizeRatio();
     this._matrix = this._buildMatrix();
   }
 
