@@ -1,9 +1,15 @@
 import { ILocation } from "./MapManager";
+import { Bot, IDimensions } from "./Bot";
 
-export class Tile {
+export class Cell {
   private _cleaned: boolean;
   private _location: ILocation;
   private _cellNumber: string;
+
+  private _dimensions: IDimensions = {
+    height: Bot.getMapSizeRatio(),
+    width: Bot.getMapSizeRatio(),
+  };
 
   constructor(cellNumber: string) {
     this._cellNumber = cellNumber;
@@ -34,5 +40,13 @@ export class Tile {
 
   public setClean(value: boolean): void {
     this._cleaned = value;
+  }
+
+  public getWidth(): number {
+    return this._dimensions.width;
+  }
+
+  public getHeight(): number {
+    return this._dimensions.height;
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { BotContext } from "../../App";
-import { IBotDimensions } from "../../models/Bot";
+import { IDimensions } from "../../models/Bot";
 import { ILocation } from "../../models/MapManager";
 import { botActionTypes } from "../../context/actionTypes";
 
@@ -9,7 +9,7 @@ export interface IBotProps {
   name: string;
   selected: boolean;
   id: number;
-  dimensions: IBotDimensions;
+  dimensions: IDimensions;
 }
 
 const styles = (vars: any): any => {

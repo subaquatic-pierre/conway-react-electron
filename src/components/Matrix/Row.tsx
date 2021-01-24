@@ -1,22 +1,22 @@
 import React from "react";
-import { Tile as TileModel } from "../../models/Tile";
-import { Tile } from "./Tile";
+import { Cell as CellModel } from "../../models/Cell";
+import { Cell } from "./Cell";
 import "./style.scss";
 
 interface IRowProps {
-  row: TileModel[];
+  row: CellModel[];
 }
 
 export const Row: React.FC<IRowProps> = ({ row }: IRowProps) => {
   return (
     <div className="row">
-      {row.map((tile, index) => {
+      {row.map((cell, index) => {
         return (
-          <Tile
+          <Cell
             key={index}
-            width={50}
-            height={50}
-            text={tile.printLocation()}
+            width={cell.getWidth()}
+            height={cell.getHeight()}
+            text={cell.printLocation()}
           />
         );
       })}

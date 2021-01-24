@@ -1,25 +1,26 @@
 import React from "react";
-import { Bot } from "../../models/Bot";
 
 import "./style.scss";
 
-interface ITileProps {
+interface ICellProps {
   width: number;
   height: number;
   text: string;
 }
 
-export const Tile: React.FC<ITileProps> = ({
+export const Cell: React.FC<ICellProps> = ({
   width,
   height,
   text,
-}: ITileProps) => {
+}: ICellProps) => {
   return (
     <div
       style={{
-        width: `${Bot.dimensions.width}px`,
-        height: `${Bot.dimensions.height}px`,
+        width: `${width}px`,
+        height: `${height}px`,
         backgroundColor: "pink",
+        border: "1px solid black",
+        margin: "-1px",
       }}
     ></div>
   );

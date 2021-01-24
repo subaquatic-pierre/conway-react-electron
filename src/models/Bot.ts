@@ -1,6 +1,6 @@
 import { ILocation } from "./MapManager";
 
-export interface IBotDimensions {
+export interface IDimensions {
   height: number;
   width: number;
 }
@@ -12,11 +12,18 @@ export class Bot {
   private _selected: boolean;
   private _prevDirection: number | null;
 
-  static speed: number = 5;
-  static dimensions: IBotDimensions = {
-    height: 50,
-    width: 50,
+  private static _baseSize: number = 50;
+
+  public static speed: number = 1;
+
+  public static dimensions: IDimensions = {
+    height: Bot._baseSize,
+    width: Bot._baseSize,
   };
+
+  public static getMapSizeRatio(ratio: number = 1): number {
+    return Bot._baseSize / ratio;
+  }
 
   constructor(name: string, startingLocation: ILocation, id: number) {
     this._name = name;
