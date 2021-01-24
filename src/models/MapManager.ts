@@ -1,5 +1,5 @@
 import { IActions } from "../context/reducers";
-import { IBotLocation } from "./Bot";
+import { Bot, IBotLocation } from "./Bot";
 
 export interface IMapDimensions {
   topOffset: number;
@@ -16,7 +16,7 @@ export class MapManager {
       topOffset: -1,
       leftOffset: -1,
       height: 500,
-      width: 500,
+      width: 800,
     };
   }
 
@@ -34,10 +34,10 @@ export class MapManager {
 
   public isLocationInMap(location: IBotLocation): boolean {
     // Get bot boundary
-    const botRight = location.xPos + 50;
+    const botRight = location.xPos + Bot.dimensions.width;
     const botLeft = location.xPos;
     const botTop = location.yPos;
-    const botBottom = location.yPos + 50;
+    const botBottom = location.yPos + Bot.dimensions.height;
 
     // Get map boundary
     const mapTop = this._mapDimensions.topOffset;

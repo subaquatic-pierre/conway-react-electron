@@ -21,9 +21,21 @@ export class BotManager {
   constructor(state: IBotState) {
     this._state = state;
     this._mapManager = new MapManager();
-    this._startingLocation = {
-      xPos: 350,
-      yPos: 390,
+    this._startingLocation = this._calculateBotStartLocation();
+  }
+
+  private _calculateBotStartLocation(): IBotLocation {
+    const mapHeight = this._mapManager.getMapDimensions().height;
+    const mapWidth = this._mapManager.getMapDimensions().width;
+    const mapLeft = this._mapManager.getMapDimensions().leftOffset;
+    const mapTop = this._mapManager.getMapDimensions().topOffset;
+
+    const xPos = mapLeft + mapWidth / 2 - Bot.dimensions.width / 2;
+    const yPos = mapTop + mapHeight / 2 - Bot.dimensions.height / 2;
+
+    return {
+      xPos,
+      yPos,
     };
   }
 
@@ -45,7 +57,7 @@ export class BotManager {
       loopCount: 0,
       mapDimension: this._mapManager.getMapDimensions(),
       randomWalk: false,
-      botSpeed: 50,
+      botSpeed: Bot.speed,
     };
   }
 
@@ -55,7 +67,7 @@ export class BotManager {
 
   public addBot(state: IBotState, action: IActions): IBotState {
     const newStartingLocation: IBotLocation = {
-      xPos: state.startingLocation.xPos + 60,
+      xPos: state.startingLocation.xPos + Bot.dimensions.width + 10,
       yPos: state.startingLocation.yPos,
     };
 
@@ -103,31 +115,40 @@ export class BotManager {
     const bots = state.bots;
     const travelDistance = action.data.distance;
 
-    // Get the bot any initialize new direction
-    const bot = bots[0];
+    // Get the bot and initialize new direction
+    for (let i = 0; i < bots.length; i++) {
+      const bot = bots[i];
+      // Set initial bot location and map status
+      const currLocation: IBotLocation = bot.getLocation();
+      let botInMap = false;
 
-    // Set initial bot location and map status
-    const currLocation: IBotLocation = bot.getLocation();
-    let botInMap = false;
+      let randDirection = generateRandomDirection();
+      let botDirection: number = bot.getPrevDirection() || randDirection;
 
-    let randDirection = generateRandomDirection();
-    let botDirection: number = bot.getPrevDirection() || randDirection;
+      let infiniteLoop = 0;
 
-    while (!botInMap) {
-      const newLocation = this._mapManager.getNewLocation(
-        botDirection,
-        travelDistance,
-        currLocation
-      );
+      while (!botInMap) {
+        infiniteLoop++;
+        const newLocation = this._mapManager.getNewLocation(
+          botDirection,
+          travelDistance,
+          currLocation
+        );
 
-      if (this._mapManager.isLocationInMap(newLocation)) {
-        if (state.randomWalk && state.loopCount % 10 === 0) {
+        if (infiniteLoop > 200) {
+          bot.setLocation(this._startingLocation);
+          break;
+        }
+
+        if (this._mapManager.isLocationInMap(newLocation)) {
+          if (state.randomWalk && state.loopCount % 100 === 0) {
+            botDirection = generateRandomDirection();
+          }
+          bot.move(botDirection, action.data.distance);
+          botInMap = true;
+        } else {
           botDirection = generateRandomDirection();
         }
-        bot.move(botDirection, action.data.distance);
-        botInMap = true;
-      } else {
-        botDirection = generateRandomDirection();
       }
     }
 

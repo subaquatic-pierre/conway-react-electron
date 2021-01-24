@@ -3,12 +3,23 @@ export interface IBotLocation {
   yPos: number;
 }
 
+export interface IBotDimensions {
+  height: number;
+  width: number;
+}
+
 export class Bot {
   private _name: string;
   private _location: IBotLocation;
   private _id: number;
   private _selected: boolean;
   private _prevDirection: number | null;
+
+  static speed: number = 5;
+  static dimensions: IBotDimensions = {
+    height: 100,
+    width: 100,
+  };
 
   constructor(name: string, startingLocation: IBotLocation, id: number) {
     this._name = name;

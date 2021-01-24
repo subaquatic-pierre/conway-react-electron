@@ -1,6 +1,6 @@
 import React from "react";
 import { BotContext } from "../App";
-import { IBotLocation } from "../models/Bot";
+import { IBotDimensions, IBotLocation } from "../models/Bot";
 import { botActionTypes } from "../context/actionTypes";
 
 export interface IBotProps {
@@ -8,6 +8,7 @@ export interface IBotProps {
   name: string;
   selected: boolean;
   id: number;
+  dimensions: IBotDimensions;
 }
 
 const styles = (vars: any): any => {
@@ -18,8 +19,11 @@ const styles = (vars: any): any => {
     bgColor = "blue";
   }
   return {
-    width: "50px",
-    height: "50px",
+    width: `${vars.width}px`,
+    height: `${vars.height}px`,
+    borderRadius: "50%",
+    transition: "ease-in-out",
+    boxShadow: "0.1rem 0.1rem 0.5rem gray",
     backgroundColor: bgColor,
     position: "absolute",
     top: `${vars.yPos}px`,
@@ -32,6 +36,7 @@ export const Bot: React.FC<IBotProps> = ({
   selected,
   id,
   location: { xPos, yPos },
+  dimensions: { height, width },
 }: IBotProps) => {
   const { botState, botDispatch } = React.useContext(BotContext);
 
@@ -46,9 +51,7 @@ export const Bot: React.FC<IBotProps> = ({
   return (
     <div
       onClick={() => handleClick(id)}
-      style={styles({ xPos, yPos, selected })}
-    >
-      ID: {id}, Name: {name}
-    </div>
+      style={styles({ xPos, yPos, selected, width, height })}
+    ></div>
   );
 };

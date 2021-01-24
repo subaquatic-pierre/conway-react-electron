@@ -2,6 +2,7 @@ import React from "react";
 import { BotContext } from "../App";
 import { botActionTypes } from "../context/actionTypes";
 import { Bot as BotComponent } from "./BotComponent";
+import { Bot } from "../models/Bot";
 
 export const BotManager: React.FC = () => {
   const { botState, botDispatch } = React.useContext(BotContext);
@@ -63,6 +64,7 @@ export const BotManager: React.FC = () => {
             name={bot.getName()}
             selected={bot.isSelected()}
             id={bot.getID()}
+            dimensions={Bot.dimensions}
           />
         ))}
       </div>
