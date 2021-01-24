@@ -1,12 +1,12 @@
 import { IActions } from "../context/reducers";
 import { generateRandomDirection } from "../utils/generateRandomDirection";
-import { Bot, IBotLocation } from "./Bot";
-import { MapManager, IMapDimensions } from "./MapManager";
+import { Bot } from "./Bot";
+import { MapManager, IMapDimensions, ILocation } from "./MapManager";
 
 export interface IBotState {
   numberOfBots: number;
   bots: Bot[];
-  startingLocation: IBotLocation;
+  startingLocation: ILocation;
   loopCount: number;
   mapDimension: IMapDimensions;
   randomWalk: boolean;
@@ -16,7 +16,7 @@ export interface IBotState {
 export class BotManager {
   public _state: IBotState;
   private _mapManager: MapManager;
-  private _startingLocation: IBotLocation;
+  private _startingLocation: ILocation;
 
   constructor(state: IBotState) {
     this._state = state;
@@ -24,7 +24,7 @@ export class BotManager {
     this._startingLocation = this._calculateBotStartLocation();
   }
 
-  private _calculateBotStartLocation(): IBotLocation {
+  private _calculateBotStartLocation(): ILocation {
     const mapHeight = this._mapManager.getMapDimensions().height;
     const mapWidth = this._mapManager.getMapDimensions().width;
     const mapLeft = this._mapManager.getMapDimensions().leftOffset;
@@ -66,7 +66,7 @@ export class BotManager {
   }
 
   public addBot(state: IBotState, action: IActions): IBotState {
-    let newStartingLocation: IBotLocation;
+    let newStartingLocation: ILocation;
 
     if (state.numberOfBots === 0) {
       newStartingLocation = this._calculateBotStartLocation();
@@ -105,10 +105,20 @@ export class BotManager {
 
     const selectedBot: Bot = botsMove.filter((bot: Bot) => bot.isSelected())[0];
 
-    try {
-      selectedBot.move(direction, distance);
-    } catch (error) {
-      console.warn("No bot selected");
+    const newLocation = this._mapManager.getNewLocation(
+      direction,
+      distance,
+      selectedBot.getLocation()
+    );
+
+    if (this._mapManager.isLocationInMap(newLocation)) {
+      try {
+        selectedBot.move(direction, distance);
+      } catch (error) {
+        console.warn("No bot selected");
+      }
+    } else {
+      console.log("Location is not in map");
     }
 
     return {
@@ -125,7 +135,7 @@ export class BotManager {
     for (let i = 0; i < bots.length; i++) {
       const bot = bots[i];
       // Set initial bot location and map status
-      const currLocation: IBotLocation = bot.getLocation();
+      const currLocation: ILocation = bot.getLocation();
       let botInMap = false;
 
       let randDirection = generateRandomDirection();
@@ -166,7 +176,7 @@ export class BotManager {
   }
 
   public removeBot(state: IBotState, lastBot?: boolean): IBotState {
-    let startingLocation: IBotLocation;
+    let startingLocation: ILocation;
     if (lastBot) {
       startingLocation = this._calculateBotStartLocation();
     } else {

@@ -1,7 +1,4 @@
-export interface IBotLocation {
-  xPos: number;
-  yPos: number;
-}
+import { ILocation } from "./MapManager";
 
 export interface IBotDimensions {
   height: number;
@@ -10,7 +7,7 @@ export interface IBotDimensions {
 
 export class Bot {
   private _name: string;
-  private _location: IBotLocation;
+  private _location: ILocation;
   private _id: number;
   private _selected: boolean;
   private _prevDirection: number | null;
@@ -21,7 +18,7 @@ export class Bot {
     width: 100,
   };
 
-  constructor(name: string, startingLocation: IBotLocation, id: number) {
+  constructor(name: string, startingLocation: ILocation, id: number) {
     this._name = name;
     this._location = startingLocation;
     this._id = id;
@@ -37,7 +34,7 @@ export class Bot {
     return this._id;
   }
 
-  public getLocation(): IBotLocation {
+  public getLocation(): ILocation {
     return this._location;
   }
 
@@ -49,7 +46,7 @@ export class Bot {
     return this._selected;
   }
 
-  public setLocation(value: IBotLocation) {
+  public setLocation(value: ILocation) {
     this._location = value;
   }
 
@@ -73,7 +70,7 @@ export class Bot {
 
     const directionRad = this._calcDirectionRad(direction);
 
-    const newLocation: IBotLocation = {
+    const newLocation: ILocation = {
       xPos: currXPos + distance * Math.cos(directionRad),
       yPos: currYPos + distance * Math.sin(directionRad),
     };

@@ -1,10 +1,11 @@
 import React from "react";
 import { BotContext } from "../App";
-import { IBotDimensions, IBotLocation } from "../models/Bot";
+import { IBotDimensions } from "../models/Bot";
+import { ILocation } from "../models/MapManager";
 import { botActionTypes } from "../context/actionTypes";
 
 export interface IBotProps {
-  location: IBotLocation;
+  location: ILocation;
   name: string;
   selected: boolean;
   id: number;

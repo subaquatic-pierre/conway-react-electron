@@ -1,5 +1,6 @@
 import React from "react";
 import { BotManager } from "./BotManager";
+import { Matrix } from "./Matrix/Matrix";
 import { GameContext } from "../App";
 
 export const Map: React.FC = () => {
@@ -11,7 +12,8 @@ export const Map: React.FC = () => {
       <hr />
       <p>Loop number: {gameState.loopCount}</p>
       <div id="map">
-        <BotManager />
+        {/* <BotManager /> */}
+        <Matrix />
       </div>
     </div>
   );
