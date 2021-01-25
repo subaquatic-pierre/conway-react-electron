@@ -107,69 +107,106 @@ export class BotManager {
     };
   }
 
-  public updateLocation(state: IState, action: IActions): IState {
-    const bots = state.botState.bots;
-    const travelDistance = action.data.distance;
-    const newMatrix: Cell[][] = buildMatrix(
-      state.gameState.mapDimension,
-      state.gameState.matrixSize
-    );
+  public isInfiniteLoop(bot: Bot, loopCount: number): boolean {
+    if (loopCount > 200) {
+      bot.setLocation(botStartLocation);
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  public isLocationInMap(location: ILocation): boolean {
+    return this._mapManager.isLocationInMap(location);
+  }
+
+  public getNewLocation(
+    direction: number,
+    travelDistance: number,
+    currLocation: ILocation
+  ): ILocation {
+    return this._mapManager.getNewLocation(
+      direction,
+      travelDistance,
+      currLocation
+    );
+  }
+
+  public isRandomWalkDirectionChange(
+    randomWalk: boolean,
+    gameLoopCount: number
+  ): boolean {
+    if (randomWalk && gameLoopCount % 100 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public loopThroughBots(
+    bots: Bot[],
+    travelDistance: number,
+    randomWalk: boolean,
+    gameLoopCount: number,
+    matrix: Cell[][]
+  ): void {
     // Loop through all bots in map
     for (let i = 0; i < bots.length; i++) {
+      // Set constants vars
       const bot = bots[i];
-
       const currLocation: ILocation = bot.getLocation();
+
+      // Set vars which might change
       let botInMap = false;
-
-      let randDirection = generateRandomDirection();
-      let botDirection: number = bot.getPrevDirection() || randDirection;
-
-      let infiniteLoop = 0;
+      let botDirection: any = bot.generateNewDirection();
+      let loopCount = 0;
 
       while (!botInMap) {
-        infiniteLoop++;
-        const newLocation = this._mapManager.getNewLocation(
+        loopCount++;
+        const newLocation = this.getNewLocation(
           botDirection,
           travelDistance,
           currLocation
         );
 
-        if (infiniteLoop > 200) {
-          bot.setLocation(botStartLocation);
-          break;
-        }
+        if (this.isInfiniteLoop(bot, loopCount)) break;
 
-        if (this._mapManager.isLocationInMap(newLocation)) {
-          if (
-            state.botState.randomWalk &&
-            state.gameState.loopCount % 100 === 0
-          ) {
+        if (this.isLocationInMap(newLocation)) {
+          if (this.isRandomWalkDirectionChange(randomWalk, gameLoopCount)) {
             botDirection = generateRandomDirection();
           }
 
-          // const [xCoOrd, yCoOrd] = bot.getCellCoOrd().split(",");
-          // const cell: Cell =
-          //   oldMatrix[Number.parseInt(xCoOrd)][Number.parseInt(yCoOrd)];
+          bot.move(botDirection, travelDistance);
+          bot.cleanCell(matrix);
 
-          // if (!cell.isCleaned()) {
-          //   cell.setClean(true);
-          // }
-
-          // bot.cleanCell(newMatrix);
-          bot.move(botDirection, action.data.distance);
           botInMap = true;
         } else {
           botDirection = generateRandomDirection();
         }
       }
     }
+  }
+
+  public updateLocation(state: IState, action: IActions): IState {
+    const bots = state.botState.bots;
+    const travelDistance = action.data.distance;
+    const gameLoopCount = state.gameState.loopCount;
+    const randomWalk = state.botState.randomWalk;
+    const matrix = state.gameState.matrix;
+
+    this.loopThroughBots(
+      bots,
+      travelDistance,
+      randomWalk,
+      gameLoopCount,
+      matrix
+    );
 
     return {
       ...state,
       gameState: {
         ...state.gameState,
-        matrix: [...newMatrix],
+        matrix: [...state.gameState.matrix],
       },
       botState: {
         ...state.botState,
