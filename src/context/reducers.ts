@@ -2,8 +2,7 @@ import { actionTypes } from "./actionTypes";
 import { GameManager } from "./GameManager";
 import { BotManager } from "./BotManager";
 import { MapManager } from "./MapManager";
-import { Bot } from "../models/Bot";
-import { botStartLocation, initialState, IState } from "./initialState";
+import { IState } from "./initialState";
 
 export interface IActions {
   type: actionTypes | actionTypes;
