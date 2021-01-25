@@ -1,6 +1,6 @@
 import { IActions } from "../context/reducers";
-import { Bot, IDimensions } from "./Bot";
-import { Cell } from "./Cell";
+import { Bot, IDimensions } from "../models/Bot";
+import { Cell } from "../models/Cell";
 
 export interface IGameState {
   intervalID: NodeJS.Timeout | any;

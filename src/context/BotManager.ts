@@ -1,6 +1,6 @@
-import { IActions } from "../context/reducers";
+import { IActions } from "./reducers";
 import { generateRandomDirection } from "../utils/generateRandomDirection";
-import { Bot } from "./Bot";
+import { Bot } from "../models/Bot";
 import { MapManager, IMapDimensions, ILocation } from "./MapManager";
 
 export interface IBotState {
@@ -117,8 +117,6 @@ export class BotManager {
       } catch (error) {
         console.warn("No bot selected");
       }
-    } else {
-      console.log("Location is not in map");
     }
 
     return {
@@ -200,7 +198,7 @@ export class BotManager {
   public setBotSpeed(state: IBotState, action: IActions): IBotState {
     return {
       ...state,
-      botSpeed: action.data.speed,
+      botSpeed: action.data.speed === 1 ? Bot.speed : action.data.speed,
     };
   }
 }

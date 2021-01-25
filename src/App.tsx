@@ -6,8 +6,8 @@ import { ControlBox } from "./components/ControlBox";
 import { botReducer, gameReducer, IActions } from "./context/reducers";
 import { botActionTypes } from "./context/actionTypes";
 
-import { GameManager, IGameState } from "./models/GameManager";
-import { BotManager, IBotState } from "./models/BotManager";
+import { GameManager, IGameState } from "./context/GameManager";
+import { BotManager, IBotState } from "./context/BotManager";
 
 interface IGameContextProps {
   gameState: IGameState;

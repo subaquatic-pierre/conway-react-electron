@@ -1,5 +1,5 @@
 import { Bot } from "./Bot";
-import { MapManager } from "./MapManager";
+import { MapManager } from "../context/MapManager";
 import { Cell } from "./Cell";
 
 export class Matrix {

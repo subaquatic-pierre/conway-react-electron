@@ -1,7 +1,7 @@
 import React from "react";
 import { BotContext } from "../../App";
 import { IDimensions } from "../../models/Bot";
-import { ILocation } from "../../models/MapManager";
+import { ILocation } from "../../context/MapManager";
 import { botActionTypes } from "../../context/actionTypes";
 
 export interface IBotProps {
@@ -39,10 +39,9 @@ export const Bot: React.FC<IBotProps> = ({
   location: { xPos, yPos },
   dimensions: { height, width },
 }: IBotProps) => {
-  const { botState, botDispatch } = React.useContext(BotContext);
+  const { botDispatch } = React.useContext(BotContext);
 
   const handleClick = (botID: number) => {
-    console.log(botState);
     botDispatch({
       type: botActionTypes.SELECT_BOT,
       data: { id: botID },

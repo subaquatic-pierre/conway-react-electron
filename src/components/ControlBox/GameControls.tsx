@@ -12,7 +12,6 @@ export const GameControls: React.FC = () => {
     // Ensure game is not running
     if (!gameState.running) {
       if (botState.numberOfBots <= 0) {
-        console.log("There are no bots to start the game");
         return;
       }
       // Setup game loop with bot speed interval
@@ -26,8 +25,6 @@ export const GameControls: React.FC = () => {
           data: { distance: 1 },
         });
       }, botState.botSpeed);
-    } else {
-      console.log("Game is already running");
     }
   };
 

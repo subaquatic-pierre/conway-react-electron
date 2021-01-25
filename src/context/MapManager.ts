@@ -1,5 +1,5 @@
 import { IActions } from "../context/reducers";
-import { Bot } from "./Bot";
+import { Bot } from "../models/Bot";
 
 export interface ILocation {
   xPos: number;

@@ -1,4 +1,4 @@
-import { ILocation } from "./MapManager";
+import { ILocation } from "../context/MapManager";
 
 export interface IDimensions {
   height: number;
@@ -14,7 +14,7 @@ export class Bot {
 
   private static _baseSize: number = 50;
 
-  public static speed: number = 1;
+  public static speed: number = 50;
 
   public static dimensions: IDimensions = {
     height: Bot._baseSize,

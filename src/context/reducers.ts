@@ -1,7 +1,7 @@
 import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { GameManager, IGameState } from "../models/GameManager";
-import { BotManager, IBotState } from "../models/BotManager";
-import { MapManager } from "../models/MapManager";
+import { GameManager, IGameState } from "./GameManager";
+import { BotManager, IBotState } from "./BotManager";
+import { MapManager } from "./MapManager";
 
 export interface IActions {
   type: gameActionTypes | botActionTypes;
@@ -28,7 +28,6 @@ export const gameReducer = (
       return game.resetGame();
 
     case gameActionTypes.SET_MATRIX_SIZE:
-      console.log("SET MATRIX SIZE: ", action.data.size);
       return game.setMatrixSize(state, action);
 
     default:
