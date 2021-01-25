@@ -1,6 +1,7 @@
 import { ILocation } from "../context/MapManager";
 import { IState } from "../context/initialState";
 import { IDimensions } from "../context/BotManager";
+import { Cell } from "./Cell";
 
 export class Bot {
   private _name: string;
@@ -82,9 +83,16 @@ export class Bot {
     this.setLocation(newLocation);
   }
 
-  public cleanTile(state: IState): IState {
-    return {
-      ...state,
-    };
+  public cleanCells(matrix: Cell[][]): void {
+    const rowCount = matrix.length;
+    const colCount = matrix[0].length;
+    const botLocation = this.getLocation();
+    console.log("BOT LOCATION : ", botLocation);
+    // for (let i = 0; i < rowCount; i++) {
+    //   for (let j = 0; j < colCount; j++) {
+    //     const cellLocation = matrix[i][j].getLocation();
+    //     console.log("CELL LOCATION : ", cellLocation);
+    //   }
+    // }
   }
 }

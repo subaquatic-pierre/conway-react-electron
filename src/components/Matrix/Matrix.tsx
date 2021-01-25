@@ -12,7 +12,7 @@ export const Matrix: React.FC = () => {
   return (
     <div>
       <h1>Matrix</h1>
-      <div className="matrix">
+      <div id="map" className="matrix">
         {matrix.map((cellRow, index) => (
           <Row key={index} row={cellRow} />
         ))}

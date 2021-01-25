@@ -14,23 +14,6 @@ export class MapManager {
     this._mapDimensions = initialState.gameState.mapDimension;
   }
 
-  public static calculateBotStartLocation(
-    mapDimensions: IMapDimensions
-  ): ILocation {
-    const mapHeight = mapDimensions.height;
-    const mapWidth = mapDimensions.width;
-    const mapLeft = mapDimensions.leftOffset;
-    const mapTop = mapDimensions.topOffset;
-
-    const xPos = mapLeft + mapWidth / 2 - Bot.dimensions.width / 2;
-    const yPos = mapTop + mapHeight / 2 - Bot.dimensions.height / 2;
-
-    return {
-      xPos,
-      yPos,
-    };
-  }
-
   public static getMapDimensions(): IMapDimensions {
     return initialState.gameState.mapDimension;
   }

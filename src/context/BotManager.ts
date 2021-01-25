@@ -1,6 +1,7 @@
 import { IActions } from "./reducers";
 import { generateRandomDirection } from "../utils/generateRandomDirection";
 import { Bot } from "../models/Bot";
+import { Cell } from "../models/Cell";
 import { MapManager, ILocation } from "./MapManager";
 import {
   getInitialState,
@@ -8,6 +9,7 @@ import {
   IBotState,
   botStartLocation,
 } from "./initialState";
+import { buildMatrix } from "../utils/buildMatrix";
 
 export interface IDimensions {
   height: number;
@@ -81,19 +83,23 @@ export class BotManager {
 
     const selectedBot: Bot = botsMove.filter((bot: Bot) => bot.isSelected())[0];
 
-    const newLocation = this._mapManager.getNewLocation(
-      direction,
-      distance,
-      selectedBot.getLocation()
-    );
+    let newLocation: ILocation;
 
-    if (this._mapManager.isLocationInMap(newLocation)) {
-      try {
-        selectedBot.move(direction, distance);
-      } catch (error) {
-        console.warn("No bot selected");
+    try {
+      newLocation = this._mapManager.getNewLocation(
+        direction,
+        distance,
+        selectedBot.getLocation()
+      );
+
+      if (this._mapManager.isLocationInMap(newLocation)) {
+        try {
+          selectedBot.move(direction, distance);
+        } catch (error) {
+          console.warn("No bot selected");
+        }
       }
-    }
+    } catch (e) {}
 
     return {
       ...state,
@@ -104,10 +110,22 @@ export class BotManager {
   public updateLocation(state: IState, action: IActions): IState {
     const bots = state.botState.bots;
     const travelDistance = action.data.distance;
+    const updatedMatrix: Cell[][] = buildMatrix(
+      state.gameState.mapDimension,
+      state.gameState.matrixSize
+    );
 
     // Loop through all bots in map
     for (let i = 0; i < bots.length; i++) {
       const bot = bots[i];
+
+      const xCoord = bot.getLocation().xPos % 10;
+      const yCoord = bot.getLocation().yPos % 10;
+
+      console.log("MapDimensions : ", state.gameState.mapDimension);
+      console.log("X : ", xCoord, "Y : ", yCoord);
+      console.log("NEW LOCATION : ", bot.getLocation());
+
       // Set initial bot location and map status
       const currLocation: ILocation = bot.getLocation();
       let botInMap = false;
@@ -137,8 +155,8 @@ export class BotManager {
           ) {
             botDirection = generateRandomDirection();
           }
+          bot.cleanCells(updatedMatrix);
           bot.move(botDirection, action.data.distance);
-          bot.cleanTile(state);
           botInMap = true;
         } else {
           botDirection = generateRandomDirection();
@@ -151,6 +169,7 @@ export class BotManager {
       gameState: {
         ...state.gameState,
         loopCount: state.gameState.loopCount + 1,
+        matrix: [...updatedMatrix],
       },
       botState: {
         ...state.botState,
