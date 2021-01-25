@@ -1,9 +1,6 @@
 import { ILocation } from "../context/MapManager";
-
-export interface IDimensions {
-  height: number;
-  width: number;
-}
+import { IState } from "../context/initialState";
+import { IDimensions } from "../context/BotManager";
 
 export class Bot {
   private _name: string;
@@ -83,5 +80,11 @@ export class Bot {
     };
 
     this.setLocation(newLocation);
+  }
+
+  public cleanTile(state: IState): IState {
+    return {
+      ...state,
+    };
   }
 }

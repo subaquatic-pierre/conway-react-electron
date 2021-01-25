@@ -1,34 +1,38 @@
 import { IActions } from "../context/reducers";
 import { Bot } from "../models/Bot";
+import { initialState, IMapDimensions } from "./initialState";
 
 export interface ILocation {
   xPos: number;
   yPos: number;
 }
 
-export interface IMapDimensions {
-  topOffset: number;
-  leftOffset: number;
-  height: number;
-  width: number;
-}
-
-const mapDims: IMapDimensions = {
-  topOffset: -1,
-  leftOffset: -1,
-  height: 500,
-  width: 500,
-};
-
 export class MapManager {
   private _mapDimensions: IMapDimensions;
 
   constructor() {
-    this._mapDimensions = mapDims;
+    this._mapDimensions = initialState.gameState.mapDimension;
+  }
+
+  public static calculateBotStartLocation(
+    mapDimensions: IMapDimensions
+  ): ILocation {
+    const mapHeight = mapDimensions.height;
+    const mapWidth = mapDimensions.width;
+    const mapLeft = mapDimensions.leftOffset;
+    const mapTop = mapDimensions.topOffset;
+
+    const xPos = mapLeft + mapWidth / 2 - Bot.dimensions.width / 2;
+    const yPos = mapTop + mapHeight / 2 - Bot.dimensions.height / 2;
+
+    return {
+      xPos,
+      yPos,
+    };
   }
 
   public static getMapDimensions(): IMapDimensions {
-    return mapDims;
+    return initialState.gameState.mapDimension;
   }
 
   public setupMap(action: IActions): IMapDimensions {
@@ -37,10 +41,6 @@ export class MapManager {
       leftOffset: action.data.leftOffset,
       topOffset: action.data.topOffset,
     };
-  }
-
-  public getMapDimensions(): IMapDimensions {
-    return this._mapDimensions;
   }
 
   public isLocationInMap(location: ILocation): boolean {

@@ -3,59 +3,40 @@ import React, { Dispatch } from "react";
 import "./App.scss";
 import { Matrix } from "./components/Matrix";
 import { ControlBox } from "./components/ControlBox";
-import { botReducer, gameReducer, IActions } from "./context/reducers";
-import { botActionTypes } from "./context/actionTypes";
+import { reducer, IActions } from "./context/reducers";
+import { actionTypes } from "./context/actionTypes";
 
-import { GameManager, IGameState } from "./context/GameManager";
-import { BotManager, IBotState } from "./context/BotManager";
+import { IState, getInitialState } from "./context/initialState";
 
-interface IGameContextProps {
-  gameState: IGameState;
-  gameDispatch: Dispatch<IActions>;
+interface IStateContextProps {
+  state: IState;
+  dispatch: Dispatch<IActions>;
 }
 
-interface IBotContextProps {
-  botState: IBotState;
-  botDispatch: Dispatch<IActions>;
-}
-
-const game = new GameManager({} as IGameState);
-const botManager = new BotManager({} as IBotState);
-
-export const GameContext = React.createContext({} as IGameContextProps);
-export const BotContext = React.createContext({} as IBotContextProps);
+export const Context = React.createContext({} as IStateContextProps);
 
 const App: React.FC = () => {
-  const [gameState, gameDispatch] = React.useReducer(
-    gameReducer,
-    game.getInitialGameState()
-  );
-  const [botState, botDispatch] = React.useReducer(
-    botReducer,
-    botManager.getInitialBotState()
-  );
+  const [state, dispatch] = React.useReducer(reducer, getInitialState());
 
   React.useEffect(() => {
     const map = document.getElementById("map");
 
-    botDispatch({
-      type: botActionTypes.MAP_SETUP,
+    dispatch({
+      type: actionTypes.MAP_SETUP,
       data: { leftOffset: map?.offsetLeft, topOffset: map?.offsetTop },
     });
   }, []);
 
   return (
-    <GameContext.Provider value={{ gameState, gameDispatch }}>
-      <BotContext.Provider value={{ botState, botDispatch }}>
-        <div className="container">
-          <h1>Bot Simulation</h1>
-          <div className="app">
-            <Matrix />
-            <ControlBox />
-          </div>
+    <Context.Provider value={{ state, dispatch }}>
+      <div className="container">
+        <h1>Bot Simulation</h1>
+        <div className="app">
+          <Matrix />
+          <ControlBox />
         </div>
-      </BotContext.Provider>
-    </GameContext.Provider>
+      </div>
+    </Context.Provider>
   );
 };
 

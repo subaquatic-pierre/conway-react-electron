@@ -1,23 +1,20 @@
 import React from "react";
-import { BotContext, GameContext } from "../../App";
-import { Matrix as MatrixModel } from "../../models/Matrix";
+import { Context } from "../../App";
 import { BotManager } from "../BotManager";
 import { Row } from "./Row";
 import "./style.scss";
 
 export const Matrix: React.FC = () => {
-  const { gameState } = React.useContext(GameContext);
-  const matrixSize = gameState.matrixSize;
+  const { state } = React.useContext(Context);
 
-  const matrixModel = new MatrixModel(matrixSize);
-  const matrix = matrixModel.getMatrix();
+  const matrix = state.gameState.matrix;
 
   return (
     <div>
       <h1>Matrix</h1>
       <div className="matrix">
-        {matrix.map((tileRow, index) => (
-          <Row key={index} row={tileRow} />
+        {matrix.map((cellRow, index) => (
+          <Row key={index} row={cellRow} />
         ))}
         <BotManager />
       </div>

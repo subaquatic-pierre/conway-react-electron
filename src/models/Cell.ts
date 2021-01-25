@@ -1,6 +1,7 @@
 import { ILocation } from "../context/MapManager";
-import { Bot, IDimensions } from "./Bot";
-import { IGameState } from "../context/GameManager";
+import { Bot } from "./Bot";
+import { IDimensions } from "../context/BotManager";
+import { IGameState } from "../context/initialState";
 import { IActions } from "../context/reducers";
 
 export class Cell {

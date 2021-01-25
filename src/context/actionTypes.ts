@@ -1,11 +1,8 @@
-export enum gameActionTypes {
+export enum actionTypes {
   RUN_GAME = "RUN_GAME",
   STOP_GAME = "STOP_GAME",
   RESET_GAME = "RESET_GAME",
   SET_MATRIX_SIZE = "SET_MATRIX_SIZE",
-}
-
-export enum botActionTypes {
   MOVE_BOT = "MOVE_BOT",
   ADD_BOT = "ADD_BOT",
   ADD_ITEM = "ADD_ITEM",
@@ -17,3 +14,16 @@ export enum botActionTypes {
   REMOVE_BOT = "REMOVE_BOT",
   SET_BOT_SPEED = "SET_BOT_SPEED",
 }
+
+// export enum botActionTypes {
+//   MOVE_BOT = "MOVE_BOT",
+//   ADD_BOT = "ADD_BOT",
+//   ADD_ITEM = "ADD_ITEM",
+//   RESET_BOTS = "RESET_BOTS",
+//   SELECT_BOT = "SELECT_BOT",
+//   UPDATE_BOT_LOCATION = "UPDATE_BOT_LOCATION",
+//   MAP_SETUP = "MAP_SETUP",
+//   SET_RANDOM_WALK = "SET_RANDOM_WALK",
+//   REMOVE_BOT = "REMOVE_BOT",
+//   SET_BOT_SPEED = "SET_BOT_SPEED",
+// }

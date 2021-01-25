@@ -1,80 +1,101 @@
-import { gameActionTypes, botActionTypes } from "./actionTypes";
-import { GameManager, IGameState } from "./GameManager";
-import { BotManager, IBotState } from "./BotManager";
+import { actionTypes } from "./actionTypes";
+import { GameManager } from "./GameManager";
+import { BotManager } from "./BotManager";
 import { MapManager } from "./MapManager";
+import { getInitialState, IState } from "./initialState";
 
 export interface IActions {
-  type: gameActionTypes | botActionTypes;
+  type: actionTypes | actionTypes;
   data?: any;
 }
 
-export const gameReducer = (
-  state: IGameState,
-  action: IActions
-): IGameState => {
-  const game = new GameManager(state);
-
-  switch (action.type) {
-    case gameActionTypes.RUN_GAME:
-      return game.gameLoop(state, action);
-
-    case gameActionTypes.STOP_GAME:
-      clearInterval(state.intervalID);
-      return game.stopGame(state);
-
-    case gameActionTypes.RESET_GAME:
-      clearInterval(state.intervalID);
-
-      return game.resetGame();
-
-    case gameActionTypes.SET_MATRIX_SIZE:
-      return game.setMatrixSize(state, action);
-
-    default:
-      throw new Error(
-        `Undefined action type: ${action.type} passed to reducer`
-      );
-  }
-};
-
-export const botReducer = (state: IBotState, action: IActions): IBotState => {
-  const botManager = new BotManager(state);
+export const reducer = (state: IState, action: IActions): IState => {
+  const game = new GameManager();
+  const botManager = new BotManager(state.botState);
   const mapManager = new MapManager();
 
   switch (action.type) {
-    case botActionTypes.ADD_BOT:
-      return botManager.addBot(state, action);
+    case actionTypes.RUN_GAME:
+      return {
+        ...state,
+        gameState: game.gameLoop(state.gameState, action),
+      };
 
-    case botActionTypes.RESET_BOTS:
-      return botManager.resetBots();
+    case actionTypes.STOP_GAME:
+      clearInterval(state.gameState.intervalID);
+      return {
+        ...state,
+        gameState: game.stopGame(state.gameState),
+      };
 
-    case botActionTypes.SELECT_BOT:
-      return botManager.selectBot(state, action);
+    case actionTypes.RESET_GAME:
+      clearInterval(state.gameState.intervalID);
 
-    case botActionTypes.MOVE_BOT:
-      return botManager.moveBot(state, action);
+      return getInitialState();
 
-    case botActionTypes.MAP_SETUP:
+    case actionTypes.SET_MATRIX_SIZE:
+      return {
+        ...state,
+        gameState: game.setMatrixSize(state.gameState, action),
+      };
+
+    case actionTypes.ADD_BOT:
+      return {
+        ...state,
+        botState: botManager.addBot(state.botState, action),
+      };
+
+    case actionTypes.RESET_BOTS:
+      return {
+        ...state,
+        botState: botManager.resetBots(),
+      };
+
+    case actionTypes.SELECT_BOT:
+      return {
+        ...state,
+        botState: botManager.selectBot(state.botState, action),
+      };
+
+    case actionTypes.MOVE_BOT:
+      return {
+        ...state,
+        botState: botManager.moveBot(state.botState, action),
+      };
+
+    case actionTypes.MAP_SETUP:
       const dimensions = mapManager.setupMap(action);
       return {
         ...state,
-        mapDimension: dimensions,
+        gameState: {
+          ...state.gameState,
+          mapDimension: dimensions,
+        },
       };
 
-    case botActionTypes.UPDATE_BOT_LOCATION:
+    case actionTypes.UPDATE_BOT_LOCATION:
       return botManager.updateLocation(state, action);
 
-    case botActionTypes.SET_RANDOM_WALK:
+    case actionTypes.SET_RANDOM_WALK:
       return {
         ...state,
-        randomWalk: action.data.randomWalk,
+        botState: {
+          ...state.botState,
+          randomWalk: action.data.randomWalk,
+        },
       };
 
-    case botActionTypes.REMOVE_BOT:
-      return botManager.removeBot(state, action.data?.lastBot);
+    case actionTypes.REMOVE_BOT:
+      return {
+        ...state,
+        botState: botManager.removeBot(state.botState, action.data?.lastBot),
+      };
 
-    case botActionTypes.SET_BOT_SPEED:
-      return botManager.setBotSpeed(state, action);
+    case actionTypes.SET_BOT_SPEED:
+      return {
+        ...state,
+        botState: botManager.setBotSpeed(state.botState, action),
+      };
 
     default:
       throw new Error(

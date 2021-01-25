@@ -1,9 +1,8 @@
 import React from "react";
-import { BotContext, GameContext } from "../../App";
+import { Context } from "../../App";
 
 export const GameStats: React.FC = () => {
-  const { botState } = React.useContext(BotContext);
-  const { gameState } = React.useContext(GameContext);
+  const { state } = React.useContext(Context);
 
   return (
     <div>
@@ -11,10 +10,11 @@ export const GameStats: React.FC = () => {
       <hr />
       <div className="control-panel">
         <ul>
-          <li>Number of Loops: {gameState.loopCount}</li>
-          <li>Number of Bots: {botState.numberOfBots}</li>
+          <li>Number of Loops: {state.gameState.loopCount}</li>
+          <li>Number of Bots: {state.botState.numberOfBots}</li>
           <li>
-            Random Walk activated: {botState.randomWalk ? "True" : "False"}
+            Random Walk activated:{" "}
+            {state.botState.randomWalk ? "True" : "False"}
           </li>
           <li>Number cleaned Tiles: Unknown</li>
         </ul>

@@ -1,33 +1,32 @@
 import React from "react";
-import { botActionTypes, gameActionTypes } from "../../context/actionTypes";
-import { BotContext, GameContext } from "../../App";
+import { actionTypes } from "../../context/actionTypes";
+import { Context } from "../../App";
 import { Bot } from "../../models/Bot";
 export let intervalID: NodeJS.Timeout;
 
 export const BotControls: React.FC = () => {
-  const { botState, botDispatch } = React.useContext(BotContext);
-  const { gameState, gameDispatch } = React.useContext(GameContext);
+  const { state, dispatch } = React.useContext(Context);
 
   const handleAddBot = (): void => {
-    botDispatch({
-      type: botActionTypes.ADD_BOT,
+    dispatch({
+      type: actionTypes.ADD_BOT,
     });
   };
 
   const handleRemoveBot = (): void => {
     // Check number of bots is greater than 0 otherwise reset game
-    if (botState.numberOfBots <= 1) {
-      gameDispatch({
-        type: gameActionTypes.STOP_GAME,
+    if (state.botState.numberOfBots <= 1) {
+      dispatch({
+        type: actionTypes.STOP_GAME,
         data: { running: false },
       });
-      botDispatch({
-        type: botActionTypes.REMOVE_BOT,
+      dispatch({
+        type: actionTypes.REMOVE_BOT,
         data: { lastBot: true },
       });
     } else {
-      botDispatch({
-        type: botActionTypes.REMOVE_BOT,
+      dispatch({
+        type: actionTypes.REMOVE_BOT,
       });
     }
   };
@@ -36,40 +35,40 @@ export const BotControls: React.FC = () => {
     const el: any = document.getElementById("randomWalk");
     const checked: boolean = el.checked ? true : false;
 
-    botDispatch({
-      type: botActionTypes.SET_RANDOM_WALK,
+    dispatch({
+      type: actionTypes.SET_RANDOM_WALK,
       data: { randomWalk: checked },
     });
   };
 
   const handleMatrixSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSize = Number.parseInt(e.target.value);
-    gameDispatch({
-      type: gameActionTypes.SET_MATRIX_SIZE,
+    dispatch({
+      type: actionTypes.SET_MATRIX_SIZE,
       data: { size: newSize },
     });
   };
 
   const handleBotSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSpeed = Number.parseInt(e.target.value);
-    clearInterval(gameState.intervalID);
+    clearInterval(state.gameState.intervalID);
 
     let speedUpdated: boolean = false;
     const newIntervalTime =
       newSpeed === 1 ? Bot.speed : Bot.speed - 10 * newSpeed;
 
     const newIntervalID: NodeJS.Timeout = setInterval(() => {
-      gameDispatch({
-        type: gameActionTypes.RUN_GAME,
+      dispatch({
+        type: actionTypes.RUN_GAME,
         data: { running: true, intervalID: newIntervalID },
       });
-      botDispatch({
-        type: botActionTypes.UPDATE_BOT_LOCATION,
+      dispatch({
+        type: actionTypes.UPDATE_BOT_LOCATION,
         data: { distance: 1 },
       });
       if (!speedUpdated) {
-        botDispatch({
-          type: botActionTypes.SET_BOT_SPEED,
+        dispatch({
+          type: actionTypes.SET_BOT_SPEED,
           data: { speed: newSpeed },
         });
       }
@@ -85,7 +84,7 @@ export const BotControls: React.FC = () => {
         <label htmlFor="randomWalk">Toggle random walk: </label>
         <input
           onChange={handleToggleRandomWalk}
-          checked={botState.randomWalk}
+          checked={state.botState.randomWalk}
           type="checkbox"
           name="randomWalk"
           id="randomWalk"
@@ -102,7 +101,7 @@ export const BotControls: React.FC = () => {
               id="size1"
               name="matrixSize"
               value="1"
-              checked={gameState.matrixSize === 1}
+              checked={state.gameState.matrixSize === 1}
             />
             <label htmlFor="1">1</label>
           </div>
@@ -115,7 +114,7 @@ export const BotControls: React.FC = () => {
               id="size2"
               name="matrixSize"
               value="2"
-              checked={gameState.matrixSize === 2}
+              checked={state.gameState.matrixSize === 2}
             />
             <label htmlFor="2">2</label>
           </div>
@@ -128,7 +127,7 @@ export const BotControls: React.FC = () => {
               id="size3"
               name="matrixSize"
               value="3"
-              checked={gameState.matrixSize === 3}
+              checked={state.gameState.matrixSize === 3}
             />
             <label htmlFor="3">3</label>
           </div>
@@ -141,7 +140,7 @@ export const BotControls: React.FC = () => {
               id="size4"
               name="matrixSize"
               value="4"
-              checked={gameState.matrixSize === 4}
+              checked={state.gameState.matrixSize === 4}
             />
             <label htmlFor="4">4</label>
           </div>
@@ -154,7 +153,7 @@ export const BotControls: React.FC = () => {
               id="size5"
               name="matrixSize"
               value="5"
-              checked={gameState.matrixSize === 5}
+              checked={state.gameState.matrixSize === 5}
             />
             <label htmlFor="5">5</label>
           </div>
@@ -171,7 +170,7 @@ export const BotControls: React.FC = () => {
               id="size1"
               name="botSpeed"
               value="1"
-              checked={botState.botSpeed === Bot.speed}
+              checked={state.botState.botSpeed === Bot.speed}
             />
             <label htmlFor="1">1</label>
           </div>
@@ -184,7 +183,7 @@ export const BotControls: React.FC = () => {
               id="size2"
               name="botSpeed"
               value="2"
-              checked={botState.botSpeed === 2}
+              checked={state.botState.botSpeed === 2}
             />
             <label htmlFor="2">2</label>
           </div>
@@ -197,7 +196,7 @@ export const BotControls: React.FC = () => {
               id="size3"
               name="botSpeed"
               value="3"
-              checked={botState.botSpeed === 3}
+              checked={state.botState.botSpeed === 3}
             />
             <label htmlFor="3">3</label>
           </div>
@@ -210,7 +209,7 @@ export const BotControls: React.FC = () => {
               id="size4"
               name="botSpeed"
               value="4"
-              checked={botState.botSpeed === 4}
+              checked={state.botState.botSpeed === 4}
             />
             <label htmlFor="4">4</label>
           </div>
@@ -223,7 +222,7 @@ export const BotControls: React.FC = () => {
               id="size5"
               name="botSpeed"
               value="5"
-              checked={botState.botSpeed === 5}
+              checked={state.botState.botSpeed === 5}
             />
             <label htmlFor="5">5</label>
           </div>

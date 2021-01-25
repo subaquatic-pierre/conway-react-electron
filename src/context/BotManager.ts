@@ -1,42 +1,26 @@
 import { IActions } from "./reducers";
 import { generateRandomDirection } from "../utils/generateRandomDirection";
 import { Bot } from "../models/Bot";
-import { MapManager, IMapDimensions, ILocation } from "./MapManager";
+import { MapManager, ILocation } from "./MapManager";
+import {
+  getInitialState,
+  IState,
+  IBotState,
+  botStartLocation,
+} from "./initialState";
 
-export interface IBotState {
-  numberOfBots: number;
-  bots: Bot[];
-  startingLocation: ILocation;
-  loopCount: number;
-  mapDimension: IMapDimensions;
-  randomWalk: boolean;
-  botSpeed: number;
+export interface IDimensions {
+  height: number;
+  width: number;
 }
 
 export class BotManager {
   public _state: IBotState;
   private _mapManager: MapManager;
-  private _startingLocation: ILocation;
 
   constructor(state: IBotState) {
     this._state = state;
     this._mapManager = new MapManager();
-    this._startingLocation = this._calculateBotStartLocation();
-  }
-
-  private _calculateBotStartLocation(): ILocation {
-    const mapHeight = this._mapManager.getMapDimensions().height;
-    const mapWidth = this._mapManager.getMapDimensions().width;
-    const mapLeft = this._mapManager.getMapDimensions().leftOffset;
-    const mapTop = this._mapManager.getMapDimensions().topOffset;
-
-    const xPos = mapLeft + mapWidth / 2 - Bot.dimensions.width / 2;
-    const yPos = mapTop + mapHeight / 2 - Bot.dimensions.height / 2;
-
-    return {
-      xPos,
-      yPos,
-    };
   }
 
   private _updateSelectedBots(bots: Bot[], state: any, data: any): void {
@@ -50,15 +34,7 @@ export class BotManager {
   }
 
   public getInitialBotState(): IBotState {
-    return {
-      startingLocation: this._startingLocation,
-      numberOfBots: 1,
-      bots: [new Bot("Bob", this._startingLocation, 0)],
-      loopCount: 0,
-      mapDimension: this._mapManager.getMapDimensions(),
-      randomWalk: false,
-      botSpeed: Bot.speed,
-    };
+    return getInitialState().botState;
   }
 
   public resetBots(): IBotState {
@@ -69,7 +45,7 @@ export class BotManager {
     let newStartingLocation: ILocation;
 
     if (state.numberOfBots === 0) {
-      newStartingLocation = this._calculateBotStartLocation();
+      newStartingLocation = botStartLocation;
     } else {
       newStartingLocation = {
         xPos: state.startingLocation.xPos + Bot.dimensions.width + 10,
@@ -125,8 +101,8 @@ export class BotManager {
     };
   }
 
-  public updateLocation(state: IBotState, action: IActions): IBotState {
-    const bots = state.bots;
+  public updateLocation(state: IState, action: IActions): IState {
+    const bots = state.botState.bots;
     const travelDistance = action.data.distance;
 
     // Loop through all bots in map
@@ -150,15 +126,19 @@ export class BotManager {
         );
 
         if (infiniteLoop > 200) {
-          bot.setLocation(this._startingLocation);
+          bot.setLocation(botStartLocation);
           break;
         }
 
         if (this._mapManager.isLocationInMap(newLocation)) {
-          if (state.randomWalk && state.loopCount % 100 === 0) {
+          if (
+            state.botState.randomWalk &&
+            state.gameState.loopCount % 100 === 0
+          ) {
             botDirection = generateRandomDirection();
           }
           bot.move(botDirection, action.data.distance);
+          bot.cleanTile(state);
           botInMap = true;
         } else {
           botDirection = generateRandomDirection();
@@ -168,15 +148,21 @@ export class BotManager {
 
     return {
       ...state,
-      loopCount: state.loopCount + 1,
-      bots: bots,
+      gameState: {
+        ...state.gameState,
+        loopCount: state.gameState.loopCount + 1,
+      },
+      botState: {
+        ...state.botState,
+        bots: bots,
+      },
     };
   }
 
   public removeBot(state: IBotState, lastBot?: boolean): IBotState {
     let startingLocation: ILocation;
     if (lastBot) {
-      startingLocation = this._calculateBotStartLocation();
+      startingLocation = botStartLocation;
     } else {
       startingLocation = {
         xPos: state.startingLocation.xPos - Bot.dimensions.width - 10,

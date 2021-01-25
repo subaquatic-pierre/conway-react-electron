@@ -1,39 +1,39 @@
 import React from "react";
-import { BotContext } from "../../App";
-import { botActionTypes } from "../../context/actionTypes";
+import { Context } from "../../App";
+import { actionTypes } from "../../context/actionTypes";
 import { Bot as BotComponent } from "./Bot";
 import { Bot } from "../../models/Bot";
 
 export const BotManager: React.FC = () => {
-  const { botState, botDispatch } = React.useContext(BotContext);
+  const { state, dispatch } = React.useContext(Context);
 
   React.useEffect(() => {
     window.addEventListener("keydown", (e) => {
       switch (e.code) {
         case "ArrowRight":
-          botDispatch({
-            type: botActionTypes.MOVE_BOT,
+          dispatch({
+            type: actionTypes.MOVE_BOT,
             data: { direction: 0, distance: 10 },
           });
           break;
 
         case "ArrowLeft":
-          botDispatch({
-            type: botActionTypes.MOVE_BOT,
+          dispatch({
+            type: actionTypes.MOVE_BOT,
             data: { direction: 180, distance: 10 },
           });
           break;
 
         case "ArrowUp":
-          botDispatch({
-            type: botActionTypes.MOVE_BOT,
+          dispatch({
+            type: actionTypes.MOVE_BOT,
             data: { direction: 270, distance: 10 },
           });
           break;
 
         case "ArrowDown":
-          botDispatch({
-            type: botActionTypes.MOVE_BOT,
+          dispatch({
+            type: actionTypes.MOVE_BOT,
             data: { direction: 90, distance: 10 },
           });
           break;
@@ -47,7 +47,7 @@ export const BotManager: React.FC = () => {
   return (
     <>
       {" "}
-      {botState.bots.map((bot: any, i: number) => (
+      {state.botState.bots.map((bot: any, i: number) => (
         <BotComponent
           key={i}
           location={bot.getLocation()}

@@ -1,32 +1,9 @@
+import { buildMatrix } from "../utils/buildMatrix";
 import { IActions } from "../context/reducers";
-import { Bot, IDimensions } from "../models/Bot";
 import { Cell } from "../models/Cell";
-
-export interface IGameState {
-  intervalID: NodeJS.Timeout | any;
-  running: boolean;
-  loopCount: number;
-  matrixSize: number;
-  cellDimensions: IDimensions;
-  cellSize: number;
-}
+import { IGameState } from "./initialState";
 
 export class GameManager {
-  private _state: IGameState;
-
-  constructor(state: IGameState) {
-    this._state = state;
-  }
-
-  public getInitialGameState = (): IGameState => ({
-    intervalID: null,
-    running: false,
-    loopCount: 0,
-    matrixSize: 1,
-    cellDimensions: Bot.dimensions,
-    cellSize: 1,
-  });
-
   public gameLoop = (state: IGameState, action: IActions): IGameState => {
     return {
       ...state,
@@ -43,10 +20,6 @@ export class GameManager {
     };
   };
 
-  public resetGame = (): IGameState => {
-    return this.getInitialGameState();
-  };
-
   public setMatrixSize = (state: IGameState, action: IActions): IGameState => {
     return {
       ...state,
@@ -56,6 +29,7 @@ export class GameManager {
         height: Cell.getCellSize(state, action).height,
       },
       matrixSize: action.data.size,
+      matrix: buildMatrix(state.mapDimension, action.data.size),
     };
   };
 }
