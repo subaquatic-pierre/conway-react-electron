@@ -215,16 +215,25 @@ export class BotManager {
     };
   }
 
-  public removeBot(state: IBotState, lastBot?: boolean): IBotState {
-    let startingLocation: ILocation;
+  public getNewStartingLocation(
+    state: IBotState,
+    lastBot?: boolean
+  ): ILocation {
     if (lastBot) {
-      startingLocation = botStartLocation;
+      return botStartLocation;
     } else {
-      startingLocation = {
+      return {
         xPos: state.startingLocation.xPos - Bot.dimensions.width - 10,
         yPos: state.startingLocation.yPos,
       };
     }
+  }
+
+  public removeBot(state: IBotState, lastBot?: boolean): IBotState {
+    const startingLocation: ILocation = this.getNewStartingLocation(
+      state,
+      lastBot
+    );
 
     const bots = [...state.bots];
     if (bots.length > 0) bots.pop();
