@@ -16,7 +16,7 @@ export const GameStats: React.FC = () => {
             Random Walk activated:{" "}
             {state.botState.randomWalk ? "True" : "False"}
           </li>
-          <li>Number cleaned Tiles: Unknown</li>
+          <li>Number cleaned Tiles: {state.gameState.cleanedCellCount}</li>
         </ul>
       </div>
     </div>

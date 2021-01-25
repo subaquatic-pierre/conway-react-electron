@@ -21,6 +21,7 @@ export interface IGameState {
   cellSize: number;
   mapDimension: IMapDimensions;
   matrix: Cell[][];
+  cleanedCellCount: number;
 }
 
 export interface IBotState {
@@ -55,6 +56,7 @@ export const initialState: IState = {
     cellSize: 1,
     mapDimension: mapDims,
     matrix: buildMatrix(mapDims, 1),
+    cleanedCellCount: 0,
   },
   botState: {
     startingLocation: botStartLocation,

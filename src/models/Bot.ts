@@ -65,12 +65,14 @@ export class Bot {
     return this._prevDirection;
   }
 
-  public getCellCoOrd(): string {
-    const xCell = Math.ceil((this.getLocation().xPos + Bot._baseSize / 2) / 50);
-    const yCell = Math.ceil((this.getLocation().yPos + Bot._baseSize / 2) / 50);
-    const xCoOrd: string = xCell.toString();
-    const yCoOrd: string = yCell.toString();
-    return `${xCoOrd},${yCoOrd}`;
+  public getCellCoOrd(): number[] {
+    const xCell = Math.floor(
+      (this.getLocation().xPos + Bot._baseSize / 2) / 50
+    );
+    const yCell = Math.floor(
+      (this.getLocation().yPos + Bot._baseSize / 2) / 50
+    );
+    return [xCell, yCell];
   }
 
   public setPrevDirection(direction: number): void {
@@ -100,5 +102,9 @@ export class Bot {
     }
   }
 
-  public cleanCell(matrix: Cell[][]): void {}
+  public cleanCell(matrix: Cell[][]): void {
+    const [x, y] = this.getCellCoOrd();
+    const cell: Cell = matrix[y][x];
+    cell.setClean(true);
+  }
 }
