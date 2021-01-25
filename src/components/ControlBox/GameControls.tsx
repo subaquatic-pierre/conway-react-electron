@@ -8,6 +8,9 @@ export const GameControls: React.FC = () => {
   const { state, dispatch } = React.useContext(Context);
 
   const handleStartClick = () => {
+    document.addEventListener("click", (e) => {
+      console.log(`X : ${e.pageX} - Y : ${e.pageY}`);
+    });
     // Ensure game is not running
     if (!state.gameState.running) {
       if (state.botState.numberOfBots <= 0) {
@@ -36,11 +39,7 @@ export const GameControls: React.FC = () => {
 
   const handleResetClick = () => {
     dispatch({
-      type: actionTypes.RESET_BOTS,
-    });
-    dispatch({
       type: actionTypes.RESET_GAME,
-      data: { running: false },
     });
   };
 

@@ -3,8 +3,8 @@ import { IMapDimensions } from "../context/initialState";
 import { Bot } from "../models/Bot";
 
 export function buildMatrix(mapDims: IMapDimensions, size: number): Cell[][] {
-  const rows = (mapDims.height * size) / Bot.getMapSizeRatio();
-  const cols = (mapDims.width * size) / Bot.getMapSizeRatio();
+  const rows = Math.floor((mapDims.height * size) / Bot.getMapSizeRatio());
+  const cols = Math.floor((mapDims.width * size) / Bot.getMapSizeRatio());
   const matrix: Cell[][] = [];
   for (let i = 0; i < rows; i++) {
     matrix.push([]);

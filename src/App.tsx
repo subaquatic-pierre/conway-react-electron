@@ -6,7 +6,7 @@ import { ControlBox } from "./components/ControlBox";
 import { reducer, IActions } from "./context/reducers";
 import { actionTypes } from "./context/actionTypes";
 
-import { IState, getInitialState } from "./context/initialState";
+import { IState, initialState } from "./context/initialState";
 
 interface IStateContextProps {
   state: IState;
@@ -16,7 +16,7 @@ interface IStateContextProps {
 export const Context = React.createContext({} as IStateContextProps);
 
 const App: React.FC = () => {
-  const [state, dispatch] = React.useReducer(reducer, getInitialState());
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
   React.useEffect(() => {
     const map = document.getElementById("map");

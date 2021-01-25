@@ -110,7 +110,7 @@ export class BotManager {
   public updateLocation(state: IState, action: IActions): IState {
     const bots = state.botState.bots;
     const travelDistance = action.data.distance;
-    const updatedMatrix: Cell[][] = buildMatrix(
+    const newMatrix: Cell[][] = buildMatrix(
       state.gameState.mapDimension,
       state.gameState.matrixSize
     );
@@ -119,14 +119,6 @@ export class BotManager {
     for (let i = 0; i < bots.length; i++) {
       const bot = bots[i];
 
-      const xCoord = bot.getLocation().xPos % 10;
-      const yCoord = bot.getLocation().yPos % 10;
-
-      console.log("MapDimensions : ", state.gameState.mapDimension);
-      console.log("X : ", xCoord, "Y : ", yCoord);
-      console.log("NEW LOCATION : ", bot.getLocation());
-
-      // Set initial bot location and map status
       const currLocation: ILocation = bot.getLocation();
       let botInMap = false;
 
@@ -155,7 +147,16 @@ export class BotManager {
           ) {
             botDirection = generateRandomDirection();
           }
-          bot.cleanCells(updatedMatrix);
+
+          // const [xCoOrd, yCoOrd] = bot.getCellCoOrd().split(",");
+          // const cell: Cell =
+          //   oldMatrix[Number.parseInt(xCoOrd)][Number.parseInt(yCoOrd)];
+
+          // if (!cell.isCleaned()) {
+          //   cell.setClean(true);
+          // }
+
+          // bot.cleanCell(newMatrix);
           bot.move(botDirection, action.data.distance);
           botInMap = true;
         } else {
@@ -168,12 +169,11 @@ export class BotManager {
       ...state,
       gameState: {
         ...state.gameState,
-        loopCount: state.gameState.loopCount + 1,
-        matrix: [...updatedMatrix],
+        matrix: [...newMatrix],
       },
       botState: {
         ...state.botState,
-        bots: bots,
+        bots: [...bots],
       },
     };
   }

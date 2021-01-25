@@ -65,6 +65,6 @@ export const initialState: IState = {
   },
 };
 
-export const getInitialState = (): IState => {
-  return { ...initialState };
-};
+export function getInitialState(): IState {
+  return initialState;
+}

@@ -2,7 +2,8 @@ import { actionTypes } from "./actionTypes";
 import { GameManager } from "./GameManager";
 import { BotManager } from "./BotManager";
 import { MapManager } from "./MapManager";
-import { getInitialState, IState } from "./initialState";
+import { Bot } from "../models/Bot";
+import { botStartLocation, initialState, IState } from "./initialState";
 
 export interface IActions {
   type: actionTypes | actionTypes;
@@ -30,8 +31,7 @@ export const reducer = (state: IState, action: IActions): IState => {
 
     case actionTypes.RESET_GAME:
       clearInterval(state.gameState.intervalID);
-
-      return getInitialState();
+      return game.resetGame();
 
     case actionTypes.SET_MATRIX_SIZE:
       return {

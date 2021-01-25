@@ -11,7 +11,13 @@ export const Row: React.FC<IRowProps> = ({ row }: IRowProps) => {
   return (
     <div className="row">
       {row.map((cell, index) => {
-        return <Cell key={index} text={cell.printLocation()} />;
+        return (
+          <Cell
+            key={index}
+            cleaned={cell.isCleaned()}
+            text={cell.printLocation()}
+          />
+        );
       })}
     </div>
   );

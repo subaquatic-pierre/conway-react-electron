@@ -64,6 +64,14 @@ export class Bot {
     return this._prevDirection;
   }
 
+  public getCellCoOrd(): string {
+    const xCell = Math.ceil((this.getLocation().xPos + Bot._baseSize / 2) / 50);
+    const yCell = Math.ceil((this.getLocation().yPos + Bot._baseSize / 2) / 50);
+    const xCoOrd: string = xCell.toString();
+    const yCoOrd: string = yCell.toString();
+    return `${xCoOrd},${yCoOrd}`;
+  }
+
   public setPrevDirection(direction: number): void {
     this._prevDirection = direction;
   }
@@ -81,18 +89,5 @@ export class Bot {
     };
 
     this.setLocation(newLocation);
-  }
-
-  public cleanCells(matrix: Cell[][]): void {
-    const rowCount = matrix.length;
-    const colCount = matrix[0].length;
-    const botLocation = this.getLocation();
-    console.log("BOT LOCATION : ", botLocation);
-    // for (let i = 0; i < rowCount; i++) {
-    //   for (let j = 0; j < colCount; j++) {
-    //     const cellLocation = matrix[i][j].getLocation();
-    //     console.log("CELL LOCATION : ", cellLocation);
-    //   }
-    // }
   }
 }

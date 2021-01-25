@@ -8,8 +8,8 @@ export const ControlBox: React.FC = ({ children }) => {
   return (
     <div className="control-box-container">
       <GameStats />
-      <BotControls />
       <GameControls />
+      <BotControls />
     </div>
   );
 };

@@ -1,7 +1,13 @@
 import { buildMatrix } from "../utils/buildMatrix";
 import { IActions } from "../context/reducers";
 import { Cell } from "../models/Cell";
-import { IGameState } from "./initialState";
+import { Bot } from "../models/Bot";
+import {
+  initialState,
+  botStartLocation,
+  IGameState,
+  IState,
+} from "./initialState";
 
 export class GameManager {
   public gameLoop = (state: IGameState, action: IActions): IGameState => {
@@ -32,4 +38,19 @@ export class GameManager {
       matrix: buildMatrix(state.mapDimension, action.data.size),
     };
   };
+
+  public resetGame(): IState {
+    const bot = new Bot("Bob", botStartLocation, 0);
+
+    return {
+      gameState: {
+        ...initialState.gameState,
+        loopCount: 0,
+      },
+      botState: {
+        ...initialState.botState,
+        bots: [bot],
+      },
+    };
+  }
 }
