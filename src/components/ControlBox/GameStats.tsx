@@ -10,7 +10,8 @@ export const GameStats: React.FC = () => {
       <hr />
       <div className="control-panel">
         <ul>
-          <li>Number of Loops: {state.gameState.loopCount}</li>
+          {/* <li>Number of Loops: {state.gameState.loopCount}</li> */}
+          <li>Elapsed Time: {state.gameState.timer} sec</li>
           <li>Number of Bots: {state.botState.numberOfBots}</li>
           <li>
             Random Walk activated:{" "}

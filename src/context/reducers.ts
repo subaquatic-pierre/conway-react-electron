@@ -21,8 +21,21 @@ export const reducer = (state: IState, action: IActions): IState => {
         gameState: game.gameLoop(state.gameState, action),
       };
 
+    case actionTypes.INCREMENT_TIMER:
+      console.log(state.gameState.running);
+      console.log(state.gameState.timerID);
+      if (!state.gameState.running) clearInterval(state.gameState.timerID);
+      return {
+        ...state,
+        gameState: {
+          ...state.gameState,
+          timer: state.gameState.timer++,
+          timerID: action.data.timerID,
+        },
+      };
+
     case actionTypes.STOP_GAME:
-      clearInterval(state.gameState.intervalID);
+      clearInterval(state.gameState.timerID);
       return {
         ...state,
         gameState: game.stopGame(state.gameState),
@@ -73,7 +86,7 @@ export const reducer = (state: IState, action: IActions): IState => {
       };
 
     case actionTypes.UPDATE_BOT_LOCATION:
-      return botManager.updateLocation(state, action);
+      return botManager.updateLocation(state, action, state.gameState.running);
 
     case actionTypes.SET_RANDOM_WALK:
       return {
@@ -91,6 +104,7 @@ export const reducer = (state: IState, action: IActions): IState => {
       };
 
     case actionTypes.SET_BOT_SPEED:
+      console.log(state.gameState);
       return {
         ...state,
         botState: botManager.setBotSpeed(state.botState, action),

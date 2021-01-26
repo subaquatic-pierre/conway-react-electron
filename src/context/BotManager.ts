@@ -9,7 +9,6 @@ import {
   IBotState,
   botStartLocation,
 } from "./initialState";
-import { buildMatrix } from "../utils/buildMatrix";
 
 export interface IDimensions {
   height: number;
@@ -187,20 +186,25 @@ export class BotManager {
     }
   }
 
-  public updateLocation(state: IState, action: IActions): IState {
+  public updateLocation(
+    state: IState,
+    action: IActions,
+    running: boolean
+  ): IState {
     const bots = state.botState.bots;
     const travelDistance = action.data.distance;
     const gameLoopCount = state.gameState.loopCount;
     const randomWalk = state.botState.randomWalk;
     const matrix = state.gameState.matrix;
 
-    this.loopThroughBots(
-      bots,
-      travelDistance,
-      randomWalk,
-      gameLoopCount,
-      matrix
-    );
+    if (running)
+      this.loopThroughBots(
+        bots,
+        travelDistance,
+        randomWalk,
+        gameLoopCount,
+        matrix
+      );
 
     return {
       ...state,

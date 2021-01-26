@@ -51,27 +51,31 @@ export const BotControls: React.FC = () => {
     const newSpeed = Number.parseInt(e.target.value);
     clearInterval(state.gameState.intervalID);
 
-    let speedUpdated: boolean = false;
+    dispatch({
+      type: actionTypes.SET_BOT_SPEED,
+      data: { speed: newSpeed },
+    });
+
     const newIntervalTime =
       newSpeed === 1 ? Bot.speed : Bot.speed - 10 * newSpeed;
 
-    const newIntervalID: NodeJS.Timeout = setInterval(() => {
-      dispatch({
-        type: actionTypes.RUN_GAME,
-        data: { running: true, intervalID: newIntervalID },
-      });
-      dispatch({
-        type: actionTypes.UPDATE_BOT_LOCATION,
-        data: { distance: 1 },
-      });
-      if (!speedUpdated) {
+    // Only set new interval if the game is currently running
+    if (state.gameState.running) {
+      const newIntervalID: NodeJS.Timeout = setInterval(() => {
         dispatch({
-          type: actionTypes.SET_BOT_SPEED,
-          data: { speed: newSpeed },
+          type: actionTypes.RUN_GAME,
+          data: {
+            running: true,
+            intervalID: newIntervalID,
+            timerID: state.gameState.timerID,
+          },
         });
-      }
-      speedUpdated = true;
-    }, newIntervalTime);
+        dispatch({
+          type: actionTypes.UPDATE_BOT_LOCATION,
+          data: { distance: 1 },
+        });
+      }, newIntervalTime);
+    }
   };
 
   return (

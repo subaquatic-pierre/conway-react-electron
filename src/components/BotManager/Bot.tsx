@@ -15,7 +15,7 @@ export interface IBotProps {
 const styles = (vars: any): any => {
   let bgColor: string;
   if (vars.selected === true) {
-    bgColor = "red";
+    bgColor = " rgb(105, 232, 255)";
   } else {
     bgColor = "blue";
   }

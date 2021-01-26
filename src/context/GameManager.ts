@@ -13,11 +13,20 @@ export class GameManager {
   public gameLoop = (state: IGameState, action: IActions): IGameState => {
     const matrix = state.matrix;
 
+    const running: boolean = state.cleanedCellCount === 196 ? false : true;
+    const loopCount: number = running ? state.loopCount++ : state.loopCount;
+
+    if (!running) {
+      clearInterval(state.intervalID);
+      clearInterval(state.timerID);
+    }
+
     return {
       ...state,
-      running: true,
+      running: running,
       intervalID: action.data.intervalID,
-      loopCount: state.loopCount++,
+      timerID: action.data.timerID,
+      loopCount: loopCount,
       cleanedCellCount: this.getCleanedCellCount(matrix),
     };
   };
@@ -34,6 +43,8 @@ export class GameManager {
   }
 
   public stopGame = (state: IGameState) => {
+    clearInterval(state.intervalID);
+    clearInterval(state.timerID);
     return {
       ...state,
       running: false,

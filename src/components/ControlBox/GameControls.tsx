@@ -13,11 +13,20 @@ export const GameControls: React.FC = () => {
       if (state.botState.numberOfBots <= 0) {
         return;
       }
+
+      // Setup timer interval
+      const timerID: NodeJS.Timeout = setInterval(() => {
+        dispatch({
+          type: actionTypes.INCREMENT_TIMER,
+          data: { data: { timerID: timerID } },
+        });
+      }, 1000);
+
       // Setup game loop with bot speed interval
       const intervalID: NodeJS.Timeout = setInterval(() => {
         dispatch({
           type: actionTypes.RUN_GAME,
-          data: { running: true, intervalID: intervalID },
+          data: { running: true, intervalID: intervalID, timerID: timerID },
         });
         dispatch({
           type: actionTypes.UPDATE_BOT_LOCATION,
@@ -39,6 +48,16 @@ export const GameControls: React.FC = () => {
       type: actionTypes.RESET_GAME,
     });
   };
+
+  React.useEffect(() => {
+    console.log(state.gameState.cleanedCellCount);
+    if (state.gameState.cleanedCellCount === 196) {
+      dispatch({
+        type: actionTypes.STOP_GAME,
+        data: { running: false },
+      });
+    }
+  }, []);
 
   return (
     <div>

@@ -14,6 +14,8 @@ export interface IMapDimensions {
 
 export interface IGameState {
   intervalID: NodeJS.Timeout | any;
+  timerID: NodeJS.Timeout | any;
+  timer: number;
   running: boolean;
   loopCount: number;
   matrixSize: number;
@@ -49,6 +51,8 @@ export const botStartLocation = calculateBotStartLocation(mapDims);
 export const initialState: IState = {
   gameState: {
     intervalID: null,
+    timerID: null,
+    timer: 0,
     running: false,
     loopCount: 0,
     matrixSize: 1,
