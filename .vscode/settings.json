@@ -10,5 +10,8 @@
   },
   "[javascriptreact]": {
       "editor.formatOnSave": true
-  }
+},
+"cSpell.words": [
+    "roomba"
+]
 }

@@ -30,10 +30,11 @@ const App: React.FC = () => {
   return (
     <Context.Provider value={{ state, dispatch }}>
       <div className="container">
-        <h1>Bot Simulation</h1>
+        <h1>Roomba Bots</h1>
+        <div className="spacer"></div>
         <div className="app">
-          <Matrix />
           <ControlBox />
+          <Matrix />
         </div>
       </div>
     </Context.Provider>
