@@ -4,8 +4,6 @@ import { IDimensions } from "../../context/BotManager";
 import { ILocation } from "../../context/MapManager";
 import { actionTypes } from "../../context/actionTypes";
 
-// Check lint
-
 export interface IBotProps {
   location: ILocation;
   name: string;
