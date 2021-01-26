@@ -49,16 +49,6 @@ export const GameControls: React.FC = () => {
     });
   };
 
-  React.useEffect(() => {
-    console.log(state.gameState.cleanedCellCount);
-    if (state.gameState.cleanedCellCount === 196) {
-      dispatch({
-        type: actionTypes.STOP_GAME,
-        data: { running: false },
-      });
-    }
-  }, []);
-
   return (
     <div>
       <h2>Game Controls</h2>

@@ -42,7 +42,7 @@ export const BotManager: React.FC = () => {
           break;
       }
     });
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

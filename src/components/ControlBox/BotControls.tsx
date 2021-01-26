@@ -6,7 +6,6 @@ export let intervalID: NodeJS.Timeout;
 
 export const BotControls: React.FC = () => {
   const { state, dispatch } = React.useContext(Context);
-  const [randomWalkChecked, setRandomWalkChecked] = React.useState(false);
 
   const handleAddBot = (): void => {
     dispatch({
@@ -39,13 +38,13 @@ export const BotControls: React.FC = () => {
     });
   };
 
-  const handleMatrixSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newSize = Number.parseInt(e.target.value);
-    dispatch({
-      type: actionTypes.SET_MATRIX_SIZE,
-      data: { size: newSize },
-    });
-  };
+  // const handleMatrixSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newSize = Number.parseInt(e.target.value);
+  //   dispatch({
+  //     type: actionTypes.SET_MATRIX_SIZE,
+  //     data: { size: newSize },
+  //   });
+  // };
 
   const handleBotSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSpeed = Number.parseInt(e.target.value);

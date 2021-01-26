@@ -1,5 +1,4 @@
 import { ILocation } from "../context/MapManager";
-import { IState } from "../context/initialState";
 import { generateRandomDirection } from "../utils/generateRandomDirection";
 import { IDimensions } from "../context/BotManager";
 import { Cell } from "./Cell";
