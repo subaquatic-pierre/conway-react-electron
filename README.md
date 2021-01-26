@@ -4,7 +4,7 @@ The application is written completely in Typescript using the React framework. T
 
 The speed and number of bots can be changed by the user as well as weather the bots use random walk or random bounce travel directions.
 
-Game stats display the number of simulation loops, number of active bots, if random walk is activated and the number of cleaned tiles. The simulation will not start if there are no bots in the map, it will end once all the tiles have been cleaned.
+Game stats display the elapsed time, number of active bots, if random walk is activated and the number of cleaned tiles. The simulation will not start if there are no bots in the map, it will end once all the tiles have been cleaned.
 
 A user can move any of the bots with the arrow keys. The user can click on a bot to highlight it, they can then use the arrow keys to direct the bot to where they wish it to start.
 
