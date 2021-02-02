@@ -1,5 +1,9 @@
 # Roomba Bots
 
+## URL:
+
+- http://roomba-bots.s3-website-us-east-1.amazonaws.com
+
 The application is written completely in Typescript using the React framework. The app simulates Roomba cleaning bots exploring and cleaning tiles with a map. The bots travel based on a random model which randomizes the direction of the bot either on hitting the edge of the map or a random direction change every 100 loops cycles.
 
 The speed and number of bots can be changed by the user as well as weather the bots use random walk or random bounce travel directions.
